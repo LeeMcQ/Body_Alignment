@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Alignment Malmesbury | Charné McQuire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .heading { font-family: 'Playfair Display', sans-serif; }
+        :root {
+            --sage: #3a6654;
+            --sage-light: #a3c5b4;
+            --accent: #f97316;
+        }
+        .hero-bg {
+            background-color: #3a6654;
+            min-height: 85vh;
+        }
+        .mobile-badge {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+        }
+        .card-hover:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgb(58 102 84 / 0.25); }
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 73px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #e8f1ed;
+            z-index: 50;
+            padding: 20px;
+        }
+        .mobile-menu.active { display: block; }
+    </style>
+</head>
+<body class="bg-white text-[#2c3e35] overflow-x-hidden">
+
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b border-[#e8f1ed] sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg" alt="Body Alignment Logo" class="h-12">
+                <div class="leading-none">
+                    <span class="heading text-2xl md:text-3xl tracking-tighter text-[#3a6654]">MALMESBURY</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+                <a href="#what-is" class="hover:text-[#f97316] transition-colors">What is Body Alignment?</a>
+                <a href="#benefits" class="hover:text-[#f97316] transition-colors">Benefits</a>
+                <a href="#charné" class="hover:text-[#f97316] transition-colors">About Charné</a>
+                <a href="#contact" class="hover:text-[#f97316] transition-colors">Contact</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="tel:0615158052" class="hidden md:flex items-center gap-2 text-sm font-medium text-[#3a6654]">
+                    <i class="fa-solid fa-phone"></i> 061 515 8052
+                </a>
+                <a href="https://wa.me/27615158052" target="_blank" class="bg-[#3a6654] hover:bg-[#2a4a3d] text-white px-6 py-3 rounded-3xl text-sm font-semibold flex items-center gap-2 transition-all">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <button id="hamburger" class="md:hidden text-3xl text-[#3a6654]">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobileMenu" class="mobile-menu">
+            <div class="flex flex-col gap-6 text-lg font-medium">
+                <a href="#what-is" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">What is Body Alignment?</a>
+                <a href="#benefits" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">Benefits</a>
+                <a href="#charné" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">About Charné</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER - MOBILE FRIENDLY -->
+    <header class="hero-bg flex items-center text-white">
+        <div class="max-w-5xl mx-auto px-6 pt-12 pb-16 md:pt-20">
+            <div class="inline-flex items-center gap-3 mobile-badge px-7 py-3.5 rounded-3xl text-sm mb-8">
+                <span class="text-yellow-300 text-xl">★★★★★</span>
+                <span class="font-medium">5.0 • 13 Google Reviews</span>
+            </div>
+            <h1 class="heading text-5xl sm:text-6xl md:text-7xl leading-none tracking-tighter mb-6">
+                A balanced spine<br>means a healthy body
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-lg">
+                Gentle, effective Body Alignment therapy with Charné McQuire in Malmesbury
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" 
+                        class="bg-white text-[#3a6654] px-10 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 w-full sm:w-auto">Book Your Session</button>
+                <a href="tel:0615158052" 
+                   class="border-2 border-white hover:bg-white hover:text-[#3a6654] px-10 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 w-full sm:w-auto transition-all">Call Now</a>
+            </div>
+            <div class="mt-16 text-sm">6 Piet Retief Street, Bergsig • Malmesbury, 7299 • Western Cape</div>
+        </div>
+    </header>
+
+    <!-- WHAT IS BODY ALIGNMENT -->
+    <section id="what-is" class="py-20 md:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-12 gap-12 md:gap-20 items-center">
+                <div class="md:col-span-5">
+                    <span class="uppercase tracking-widest text-[#a3c5b4] text-sm font-medium">THE TECHNIQUE</span>
+                    <h2 class="heading text-4xl md:text-6xl leading-none tracking-tighter mt-4 mb-8 md:mb-10 text-[#3a6654]">What is<br>Body Alignment?</h2>
+                    <div class="prose text-base md:text-lg">
+                        <p>Body Alignment is a complementary health technique that promotes the body’s capacity for self-healing.</p>
+                        <p class="mt-6">Stress, poor posture and trauma cause muscle spasms that pull the skeleton out of alignment. This creates pressure on nerves and blood vessels, resulting in pain and discomfort.</p>
+                        <p class="mt-6">Through gentle stimulation the muscles relax, heal and release deep tension, allowing the body to realign naturally.</p>
+                    </div>
+                </div>
+                <div class="md:col-span-7">
+                    <img src="http://bodyalignment.co.za/wp-content/uploads/2024/11/Untitled-design-1-1-576x1024.png" alt="Body Alignment Illustration" class="w-full rounded-3xl shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFITS - UPDATED WITH YOUR NEW DETAILED CARDS -->
+    <section id="benefits" class="py-20 md:py-28 bg-[#e8f1ed]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 md:mb-16">
+                <span class="text-[#3a6654] uppercase tracking-widest text-sm">RESULTS YOU CAN FEEL</span>
+                <h2 class="heading text-4xl md:text-5xl mt-3 text-[#3a6654]">Common conditions that respond beautifully</h2>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- Card 1 - Neck & Shoulders -->
+                <div class="bg-white p-8 md:p-10 rounded-3xl card-hover text-center border border-[#e8f1ed]">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/15-480x480.png" alt="Neck & Shoulders" class="w-28 h-28 mx-auto mb-6 rounded-2xl object-contain">
+                    <h3 class="text-2xl font-semibold mb-3 text-[#3a6654]">Neck &amp; Shoulders</h3>
+                    <p class="text-[#2c3e35] text-base leading-relaxed">Misalignment of the neck area may cause dizziness, headaches, facial tics.</p>
+                </div>
+                
+                <!-- Card 2 - Back -->
+                <div class="bg-white p-8 md:p-10 rounded-3xl card-hover text-center border border-[#e8f1ed]">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/16-480x480.png" alt="Back" class="w-28 h-28 mx-auto mb-6 rounded-2xl object-contain">
+                    <h3 class="text-2xl font-semibold mb-3 text-[#3a6654]">Back</h3>
+                    <p class="text-[#2c3e35] text-base leading-relaxed">Misalignment of the lower back may lead to digestive problems, sciatica, pain in the sacroiliac joint, hip, knee and ankle problems.</p>
+                </div>
+                
+                <!-- Card 3 - Elbow -->
+                <div class="bg-white p-8 md:p-10 rounded-3xl card-hover text-center border border-[#e8f1ed]">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/14-480x480.png" alt="Elbow" class="w-28 h-28 mx-auto mb-6 rounded-2xl object-contain">
+                    <h3 class="text-2xl font-semibold mb-3 text-[#3a6654]">Elbow</h3>
+                    <p class="text-[#2c3e35] text-base leading-relaxed">Misalignment of the elbow may cause tennis elbow, carpal tunnel syndrome, pins and needles in fingers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT CHARNÉ -->
+    <section id="charné" class="py-20 md:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-12 gap-12 md:gap-20 items-center">
+                <div class="md:col-span-5">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/32-300x233.png" alt="Charné McQuire" class="w-full rounded-3xl shadow-2xl border-8 border-white">
+                    <div class="mt-8 bg-[#fff7ed] p-8 rounded-3xl text-center border border-[#f97316]/20">
+                        <p class="italic text-xl">"My vision is to transform pain into smiles and restore people to their best health."</p>
+                        <p class="mt-4 text-[#f97316] font-medium">— Charné McQuire</p>
+                    </div>
+                </div>
+                <div class="md:col-span-7">
+                    <span class="uppercase text-[#a3c5b4] tracking-widest text-sm">YOUR PRACTITIONER</span>
+                    <h2 class="heading text-4xl md:text-6xl tracking-tighter text-[#3a6654] mt-3">Charné McQuire</h2>
+                    <p class="text-xl md:text-2xl text-[#3a6654] mt-2">Advanced Body Alignment Practitioner • Malmesbury</p>
+                    <div class="prose mt-10 md:mt-12 text-base md:text-lg">
+                        <p>Charné has always lived a healthy lifestyle. In 2017 she completed her first Body Alignment course while working full-time and raising a young family.</p>
+                        <p class="mt-6">In 2019 she followed her passion full-time. During lockdown she founded Abundant Health with her husband.</p>
+                        <p class="mt-6">Fully trained in Advanced Body Alignment, Nutritional Science, Master Herbalism, Massage &amp; Acupressure.</p>
+                    </div>
+                    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm">
+                        <div>
+                            <div class="font-semibold mb-3 text-[#3a6654]">Session Details</div>
+                            <ul class="space-y-3">
+                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> 45–60 minutes</li>
+                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> Fully clothed</li>
+                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> Gentle &amp; relaxing</li>
+                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> By appointment only</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="font-semibold mb-3 text-[#3a6654]">Contact</div>
+                            <p class="font-medium">Business: <a href="tel:0615158052" class="hover:text-[#f97316]">061 515 8052</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-20 md:py-28 bg-[#3a6654] text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 md:mb-16">
+                <span class="text-[#a3c5b4]">WHAT CLIENTS SAY</span>
+                <h2 class="heading text-4xl md:text-5xl mt-4">Real results from Malmesbury</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <div class="bg-white/10 backdrop-blur p-8 md:p-10 rounded-3xl">
+                    <div class="text-4xl mb-6">★★★★★</div>
+                    <p class="italic">"After the first session the difference was incredible."</p>
+                    <p class="mt-10 font-medium">— Jacques B.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-8 md:p-10 rounded-3xl">
+                    <div class="text-4xl mb-6">★★★★★</div>
+                    <p class="italic">"My sciatica is 90% better after 3 sessions."</p>
+                    <p class="mt-10 font-medium">— Local client</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur p-8 md:p-10 rounded-3xl">
+                    <div class="text-4xl mb-6">★★★★★</div>
+                    <p class="italic">"Life-changing treatment!"</p>
+                    <p class="mt-10 font-medium">— Yolanda D.</p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="https://www.google.com/search?q=body+alignment+malmesbury&amp;rlz=1C1GCEU_enZA1057ZA1057&amp;oq=body+alignment+malmesbury&amp;gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDINCAEQABiGAxiABBiKBTINCAIQABiGAxiABBiKBTINCAMQABiGAxiABBiKBTINCAQQABiGAxiABBiKBTIKCAUQABiABBiiBDIGCAYQRRg9MgYIBxBFGD3SAQg3MjExajBqN6gCCLACAfEFZgCsNzkwtlM&amp;sourceid=chrome&amp;ie=UTF-8#" target="_blank" 
+                   class="inline-flex items-center gap-3 border border-white/60 hover:border-white px-8 py-4 rounded-3xl text-sm">Read all 13 Google reviews →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-20 md:py-28 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="heading text-4xl md:text-6xl tracking-tighter text-[#3a6654]">Contact Us</h2>
+            </div>
+            <div class="space-y-12">
+                <div class="flex flex-col items-center gap-6 justify-center text-center">
+                    <i class="fa-solid fa-location-dot text-5xl text-[#3a6654]"></i>
+                    <div>
+                        <div class="font-medium text-xl">6 Piet Retief Street</div>
+                        <div>Bergsig, Malmesbury, 7299</div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center gap-6 justify-center text-center">
+                    <i class="fa-solid fa-phone text-5xl text-[#3a6654]"></i>
+                    <a href="tel:0615158052" class="text-2xl hover:text-[#f97316]">061 515 8052</a>
+                </div>
+                <div class="flex flex-col items-center gap-6 justify-center text-center">
+                    <i class="fa-solid fa-clock text-5xl text-[#3a6654]"></i>
+                    <div class="text-xl">By appointment only<br><span class="text-[#a3c5b4]">Monday–Friday</span></div>
+                </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5!2d18.705!3d-33.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5e5e5e5e5e5e%3A0x1234567890abcdef!2s6%20Piet%20Retief%20St%2C%20Malmesbury!5e0!3m2!1sen!2sza!4v1700000000000" width="100%" height="380" style="border:0;border-radius:24px;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#3a6654] text-white py-16 md:py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex justify-center items-center gap-4 mb-8">
+                <img src="https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg" alt="Logo" class="h-12">
+                <span class="heading text-3xl md:text-4xl tracking-tighter">Body Alignment Malmesbury</span>
+            </div>
+            <p class="text-sm opacity-75">Official local practitioner of the national Body Alignment network • © 2026 Charné McQuire • Abundant Health</p>
+            <p class="text-xs mt-6 opacity-50">Complementary health technique • Not a substitute for medical advice</p>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/27615158052" target="_blank" 
+       class="fixed bottom-6 right-6 bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-2xl text-3xl hover:scale-110 transition-all z-50">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+        document.getElementById('hamburger').addEventListener('click', toggleMobileMenu);
+    </script>
+</body>
+</html>
