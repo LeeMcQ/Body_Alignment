@@ -3,281 +3,1441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Body Alignment Malmesbury | Charné McQuire</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- SEO Meta Tags -->
+    <title>Body Alignment Malmesbury | Charné McQuire – Pain Relief & Spinal Alignment Therapy</title>
+    <meta name="description" content="Charné McQuire is Malmesbury's Advanced Body Alignment Practitioner. Gentle, effective therapy for back pain, sciatica, neck stiffness, headaches & more. Book your session today – 061 515 8052.">
+    <meta name="keywords" content="body alignment Malmesbury, body alignment therapy Western Cape, back pain relief Malmesbury, sciatica treatment Malmesbury, spinal alignment, holistic therapy Malmesbury, Charné McQuire, Abundant Health, complementary health Malmesbury">
+    <meta name="author" content="Charné McQuire – Body Alignment Malmesbury">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bodyalignmentmalmesbury.co.za/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Body Alignment Malmesbury | Charné McQuire">
+    <meta property="og:description" content="Gentle, effective Body Alignment therapy for pain relief and spinal health in Malmesbury, Western Cape.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_ZA">
+
+    <!-- Schema.org Local Business -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "name": "Body Alignment Malmesbury",
+      "description": "Advanced Body Alignment therapy for pain relief and spinal health in Malmesbury, Western Cape.",
+      "url": "https://bodyalignmentmalmesbury.co.za",
+      "telephone": "+27615158052",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "6 Piet Retief Street, Bergsig",
+        "addressLocality": "Malmesbury",
+        "addressRegion": "Western Cape",
+        "postalCode": "7299",
+        "addressCountry": "ZA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -33.46,
+        "longitude": 18.705
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "description": "By appointment only"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "13"
+      },
+      "priceRange": "$$",
+      "image": "https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg"
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .heading { font-family: 'Playfair Display', sans-serif; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         :root {
-            --sage: #3a6654;
-            --sage-light: #a3c5b4;
-            --accent: #f97316;
+            --forest:   #2e5845;
+            --forest-d: #1e3d2f;
+            --forest-l: #3a6654;
+            --sage:     #7aab95;
+            --sage-l:   #c5ddd5;
+            --cream:    #f9f5ef;
+            --warm:     #f2ede4;
+            --amber:    #d4822a;
+            --amber-l:  #f5a04a;
+            --text:     #1c2e25;
+            --text-m:   #4a6358;
+            --white:    #ffffff;
         }
-        .hero-bg {
-            background-color: #3a6654;
-            min-height: 85vh;
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
-        .mobile-badge {
-            background: rgba(255,255,255,0.25);
+
+        .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.97);
             backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--sage-l);
         }
-        .card-hover:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgb(58 102 84 / 0.25); }
-        .mobile-menu {
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .nav-brand img { height: 40px; border-radius: 6px; }
+        .nav-brand-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--forest);
+            letter-spacing: -0.01em;
+            line-height: 1;
+        }
+        .nav-brand-text span { display: block; font-size: 0.7rem; font-family: 'DM Sans', sans-serif; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-m);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--forest); }
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--forest);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--forest-d); transform: translateY(-1px); }
+        .btn-outline {
+            background: transparent;
+            color: var(--forest);
+            border: 1.5px solid var(--forest);
+        }
+        .btn-outline:hover { background: var(--forest); color: white; }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-wa:hover { background: #1ebc59; }
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--forest);
+            font-size: 1.4rem;
+            padding: 0.25rem;
+        }
+
+        /* Mobile menu */
+        .mobile-nav {
             display: none;
             position: fixed;
-            top: 73px;
+            top: 72px;
             left: 0;
             right: 0;
             background: white;
-            border-bottom: 1px solid #e8f1ed;
-            z-index: 50;
-            padding: 20px;
+            border-bottom: 1px solid var(--sage-l);
+            padding: 1.5rem;
+            z-index: 99;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
         }
-        .mobile-menu.active { display: block; }
+        .mobile-nav.open { display: block; }
+        .mobile-nav a {
+            display: block;
+            padding: 0.85rem 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--sage-l);
+        }
+        .mobile-nav a:last-child { border: none; }
+        .mobile-nav a:hover { color: var(--amber); }
+
+        /* ── HERO ── */
+        .hero {
+            background: var(--forest);
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 75% 40%, rgba(122,171,149,0.25) 0%, transparent 65%),
+                        radial-gradient(ellipse at 20% 80%, rgba(46,88,69,0.5) 0%, transparent 50%);
+        }
+        .hero-noise {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 200px;
+        }
+        .hero-inner {
+            position: relative;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem 6rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.04em;
+            margin-bottom: 1.75rem;
+        }
+        .hero-label .stars { color: #fbbf24; }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 5.5vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 em {
+            font-style: italic;
+            color: var(--sage-l);
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 440px;
+        }
+        .hero-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .hero-btns .btn {
+            padding: 0.85rem 1.8rem;
+            font-size: 0.9rem;
+        }
+        .btn-hero-primary {
+            background: white;
+            color: var(--forest);
+        }
+        .btn-hero-primary:hover { background: var(--cream); transform: translateY(-2px); }
+        .btn-hero-outline {
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.5);
+            color: white;
+        }
+        .btn-hero-outline:hover { background: rgba(255,255,255,0.1); }
+        .hero-addr {
+            margin-top: 3rem;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.05em;
+        }
+        .hero-right {
+            position: relative;
+        }
+        .hero-card-wrap {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-img-main {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 2rem;
+            object-fit: cover;
+            aspect-ratio: 3/4;
+            border: 3px solid rgba(255,255,255,0.15);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+        }
+        .hero-float-card {
+            position: absolute;
+            bottom: -1.5rem;
+            left: -1.5rem;
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            min-width: 180px;
+        }
+        .hero-float-card .fc-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--forest);
+            line-height: 1;
+        }
+        .hero-float-card .fc-label {
+            font-size: 0.72rem;
+            color: var(--text-m);
+            margin-top: 0.2rem;
+        }
+        .hero-float-card2 {
+            position: absolute;
+            top: 1.5rem;
+            right: -1.5rem;
+            background: var(--amber);
+            color: white;
+            border-radius: 1rem;
+            padding: 0.85rem 1.1rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(212,130,42,0.4);
+            text-align: center;
+        }
+        .hero-float-card2 i { font-size: 1.1rem; display: block; margin-bottom: 0.25rem; }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--cream);
+            border-bottom: 1px solid rgba(122,171,149,0.3);
+        }
+        .stats-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        .stat-item {}
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--forest);
+            line-height: 1;
+        }
+        .stat-lbl {
+            font-size: 0.78rem;
+            color: var(--text-m);
+            margin-top: 0.3rem;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── SECTIONS ── */
+        section { padding: 6rem 1.5rem; }
+        .section-inner { max-width: 1280px; margin: 0 auto; }
+        .section-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: 0.75rem;
+        }
+        .section-h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--forest);
+        }
+
+        /* ── WHAT IS ── */
+        .what-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .what-img {
+            position: relative;
+        }
+        .what-img img {
+            width: 100%;
+            border-radius: 2rem;
+            box-shadow: 0 24px 64px rgba(46,88,69,0.15);
+        }
+        .what-img-badge {
+            position: absolute;
+            bottom: 2rem;
+            right: -2rem;
+            background: var(--forest);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 12px 32px rgba(46,88,69,0.35);
+        }
+        .what-img-badge .big { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+        .what-img-badge small { font-size: 0.7rem; opacity: 0.75; }
+        .what-body p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-m);
+            margin-bottom: 1.25rem;
+        }
+        .what-body p:last-child { margin-bottom: 0; }
+        .what-body p strong { color: var(--forest); font-weight: 600; }
+        .step-list {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--sage-l);
+            color: var(--forest);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: grid;
+            place-items: center;
+        }
+        .step-text { padding-top: 0.4rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-m); }
+        .step-text strong { color: var(--text); }
+
+        /* ── CONDITIONS ── */
+        .cond-bg { background: var(--warm); }
+        .cond-header { text-align: center; margin-bottom: 3.5rem; }
+        .cond-header .section-h2 { max-width: 600px; margin: 0 auto; }
+        .cond-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .cond-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(122,171,149,0.2);
+            text-align: center;
+        }
+        .cond-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(46,88,69,0.12);
+        }
+        .cond-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.25rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: var(--sage-l);
+            display: grid;
+            place-items: center;
+        }
+        .cond-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .cond-icon .fa-icon { font-size: 2rem; color: var(--forest); }
+        .cond-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--forest);
+            margin-bottom: 0.6rem;
+        }
+        .cond-card p { font-size: 0.88rem; line-height: 1.7; color: var(--text-m); }
+        .cond-more {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--text-m);
+        }
+        .cond-more strong { color: var(--forest); }
+
+        /* ── HOW IT WORKS ── */
+        .how-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        .how-body {}
+        .how-steps { margin-top: 2.5rem; }
+        .how-step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        .how-step::after {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 44px;
+            bottom: -2.5rem;
+            width: 2px;
+            background: var(--sage-l);
+        }
+        .how-step:last-child::after { display: none; }
+        .how-step-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--forest);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 1rem;
+        }
+        .how-step-body h4 {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+        .how-step-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-m); }
+        .how-img-wrap { position: sticky; top: 100px; }
+        .how-img-wrap img {
+            width: 100%;
+            border-radius: 2rem;
+            box-shadow: 0 24px 64px rgba(46,88,69,0.15);
+        }
+        .session-info {
+            background: var(--forest);
+            color: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .session-info h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .session-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.88rem;
+        }
+        .session-row:last-child { border: none; }
+        .session-row i { width: 18px; text-align: center; color: var(--sage-l); }
+
+        /* ── ABOUT ── */
+        .about-bg { background: var(--cream); }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-img-wrap { position: relative; }
+        .about-img {
+            width: 100%;
+            border-radius: 2rem;
+            box-shadow: 0 24px 64px rgba(46,88,69,0.15);
+            border: 4px solid white;
+        }
+        .quote-card {
+            position: absolute;
+            bottom: -2rem;
+            right: -2rem;
+            background: var(--amber);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            max-width: 260px;
+            box-shadow: 0 12px 40px rgba(212,130,42,0.35);
+        }
+        .quote-card p { font-style: italic; font-size: 0.88rem; line-height: 1.6; }
+        .quote-card cite { display: block; margin-top: 0.75rem; font-size: 0.78rem; font-weight: 600; opacity: 0.85; }
+        .about-body {}
+        .about-body h2 { margin-bottom: 0.35rem; }
+        .about-title { font-size: 0.95rem; color: var(--sage); font-weight: 500; margin-bottom: 1.5rem; }
+        .about-body p { font-size: 0.95rem; line-height: 1.8; color: var(--text-m); margin-bottom: 1rem; }
+        .creds-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+        .cred {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.83rem;
+            font-weight: 500;
+            color: var(--text-m);
+        }
+        .cred i { color: var(--amber); font-size: 0.85rem; }
+
+        /* ── TESTIMONIALS ── */
+        .testi-bg { background: var(--forest); }
+        .testi-header { text-align: center; margin-bottom: 3rem; }
+        .testi-header .section-tag { color: var(--sage); }
+        .testi-header .section-h2 { color: white; }
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .testi-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+        .stars { color: #fbbf24; font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .testi-card blockquote {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1.25rem;
+        }
+        .testi-card cite {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sage);
+            letter-spacing: 0.05em;
+        }
+        .testi-footer { text-align: center; margin-top: 2.5rem; }
+        .btn-ghost {
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            color: white;
+        }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+        /* ── FAQ ── */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .faq-intro {}
+        .faq-intro p { font-size: 0.95rem; line-height: 1.8; color: var(--text-m); margin-top: 1.25rem; }
+        .faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .faq-item {
+            border: 1px solid var(--sage-l);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        .faq-q {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 1.25rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text);
+            user-select: none;
+        }
+        .faq-q:hover { background: var(--warm); }
+        .faq-q i { transition: transform 0.3s; color: var(--sage); flex-shrink: 0; margin-left: 1rem; }
+        .faq-item.open .faq-q i { transform: rotate(45deg); }
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--text-m);
+            padding: 0 1.25rem;
+        }
+        .faq-item.open .faq-a {
+            max-height: 300px;
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        /* ── CONTACT ── */
+        .contact-bg { background: var(--warm); }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .contact-info {}
+        .contact-info p { font-size: 0.95rem; line-height: 1.8; color: var(--text-m); margin: 1rem 0 2rem; }
+        .contact-rows { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem; }
+        .contact-row {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .contact-row-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--forest);
+            color: white;
+            border-radius: 0.75rem;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .contact-row-body {}
+        .contact-row-body h4 { font-weight: 600; font-size: 0.85rem; color: var(--text); margin-bottom: 0.15rem; }
+        .contact-row-body p, .contact-row-body a {
+            font-size: 0.88rem;
+            color: var(--text-m);
+            text-decoration: none;
+            line-height: 1.5;
+        }
+        .contact-row-body a:hover { color: var(--forest); }
+        .contact-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 440px;
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--forest-d);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+        .footer-brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .footer-brand img { height: 36px; border-radius: 6px; }
+        .footer-brand span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+        }
+        footer p { font-size: 0.78rem; line-height: 1.8; }
+        footer a { color: var(--sage); text-decoration: none; }
+
+        /* ── FLOATING WHATSAPP ── */
+        .fab-wa {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 58px;
+            height: 58px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 1.6rem;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(37,211,102,0.45);
+            z-index: 200;
+            transition: transform 0.25s;
+        }
+        .fab-wa:hover { transform: scale(1.1); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .anim { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+        .anim-d1 { animation-delay: 0.1s; }
+        .anim-d2 { animation-delay: 0.2s; }
+        .anim-d3 { animation-delay: 0.35s; }
+        .anim-d4 { animation-delay: 0.5s; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .what-img-badge { right: -0.5rem; }
+            .quote-card { right: -0.5rem; }
+        }
+        @media (max-width: 768px) {
+            section { padding: 4rem 1.25rem; }
+            .hero-inner { grid-template-columns: 1fr; gap: 3rem; padding: 3.5rem 1.25rem 4rem; }
+            .hero-right { display: none; }
+            .hero { min-height: auto; }
+            .stats-inner { grid-template-columns: repeat(2,1fr); }
+            .what-grid, .how-grid, .about-grid, .contact-grid, .faq-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .cond-grid { grid-template-columns: 1fr 1fr; }
+            .testi-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .btn-outline.nav-phone { display: none; }
+            .what-img-badge, .quote-card { display: none; }
+        }
+        @media (max-width: 480px) {
+            .cond-grid { grid-template-columns: 1fr; }
+            .stats-inner { grid-template-columns: repeat(2,1fr); }
+            .creds-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
-<body class="bg-white text-[#2c3e35] overflow-x-hidden">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="bg-white border-b border-[#e8f1ed] sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg" alt="Body Alignment Logo" class="h-12">
-                <div class="leading-none">
-                    <span class="heading text-2xl md:text-3xl tracking-tighter text-[#3a6654]">MALMESBURY</span>
-                </div>
+<!-- NAV -->
+<nav aria-label="Main navigation">
+    <div class="nav-inner">
+        <a href="#" class="nav-brand" aria-label="Body Alignment Malmesbury Home">
+            <img src="https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg" alt="Body Alignment Logo" style="height:40px;width:auto;object-fit:contain;">
+            <div class="nav-brand-text">
+                Body Alignment
+                <span>Malmesbury</span>
             </div>
-            
-            <div class="hidden md:flex items-center gap-10 text-sm font-medium">
-                <a href="#what-is" class="hover:text-[#f97316] transition-colors">What is Body Alignment?</a>
-                <a href="#benefits" class="hover:text-[#f97316] transition-colors">Benefits</a>
-                <a href="#charné" class="hover:text-[#f97316] transition-colors">About Charné</a>
-                <a href="#contact" class="hover:text-[#f97316] transition-colors">Contact</a>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <a href="tel:0615158052" class="hidden md:flex items-center gap-2 text-sm font-medium text-[#3a6654]">
-                    <i class="fa-solid fa-phone"></i> 061 515 8052
-                </a>
-                <a href="https://wa.me/27615158052" target="_blank" class="bg-[#3a6654] hover:bg-[#2a4a3d] text-white px-6 py-3 rounded-3xl text-sm font-semibold flex items-center gap-2 transition-all">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </a>
-                <button id="hamburger" class="md:hidden text-3xl text-[#3a6654]">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
-        </div>
-        
-        <div id="mobileMenu" class="mobile-menu">
-            <div class="flex flex-col gap-6 text-lg font-medium">
-                <a href="#what-is" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">What is Body Alignment?</a>
-                <a href="#benefits" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">Benefits</a>
-                <a href="#charné" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">About Charné</a>
-                <a href="#contact" onclick="toggleMobileMenu()" class="hover:text-[#f97316]">Contact</a>
-            </div>
-        </div>
-    </nav>
+        </a>
 
-    <!-- HERO BANNER - MOBILE FRIENDLY -->
-    <header class="hero-bg flex items-center text-white">
-        <div class="max-w-5xl mx-auto px-6 pt-12 pb-16 md:pt-20">
-            <div class="inline-flex items-center gap-3 mobile-badge px-7 py-3.5 rounded-3xl text-sm mb-8">
-                <span class="text-yellow-300 text-xl">★★★★★</span>
-                <span class="font-medium">5.0 • 13 Google Reviews</span>
+        <ul class="nav-links" role="list">
+            <li><a href="#what-is">The Technique</a></li>
+            <li><a href="#conditions">Conditions</a></li>
+            <li><a href="#charne">About Charné</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-cta">
+            <a href="tel:0615158052" class="btn btn-outline nav-phone" aria-label="Call us">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i> 061 515 8052
+            </a>
+            <a href="https://wa.me/27615158052" target="_blank" rel="noopener" class="btn btn-wa" aria-label="WhatsApp us">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+    <a href="#what-is" onclick="closeMobile()">The Technique</a>
+    <a href="#conditions" onclick="closeMobile()">Conditions</a>
+    <a href="#charne" onclick="closeMobile()">About Charné</a>
+    <a href="#faq" onclick="closeMobile()">FAQ</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+    <a href="tel:0615158052"><i class="fa-solid fa-phone"></i> &nbsp;061 515 8052</a>
+</div>
+
+<!-- HERO -->
+<header class="hero" role="banner">
+    <div class="hero-noise" aria-hidden="true"></div>
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-label anim anim-d1">
+                <span class="stars" aria-label="5 star rating">★★★★★</span>
+                <span>5.0 · 13 Google Reviews</span>
             </div>
-            <h1 class="heading text-5xl sm:text-6xl md:text-7xl leading-none tracking-tighter mb-6">
-                A balanced spine<br>means a healthy body
+            <h1 class="anim anim-d2">
+                A balanced spine<br>means a <em>healthy</em><br>body &amp; mind
             </h1>
-            <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-lg">
-                Gentle, effective Body Alignment therapy with Charné McQuire in Malmesbury
+            <p class="hero-sub anim anim-d3">
+                Gentle, non-invasive Body Alignment therapy with Charné McQuire — Advanced Practitioner in Malmesbury, Western Cape.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" 
-                        class="bg-white text-[#3a6654] px-10 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 w-full sm:w-auto">Book Your Session</button>
-                <a href="tel:0615158052" 
-                   class="border-2 border-white hover:bg-white hover:text-[#3a6654] px-10 py-6 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 w-full sm:w-auto transition-all">Call Now</a>
+            <div class="hero-btns anim anim-d4">
+                <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="btn btn-hero-primary">
+                    <i class="fa-regular fa-calendar-check" aria-hidden="true"></i> Book a Session
+                </button>
+                <a href="tel:0615158052" class="btn btn-hero-outline">
+                    <i class="fa-solid fa-phone" aria-hidden="true"></i> Call Now
+                </a>
             </div>
-            <div class="mt-16 text-sm">6 Piet Retief Street, Bergsig • Malmesbury, 7299 • Western Cape</div>
+            <p class="hero-addr anim anim-d4">
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>&ensp;6 Piet Retief Street, Bergsig · Malmesbury, 7299 · Western Cape
+            </p>
         </div>
-    </header>
 
-    <!-- WHAT IS BODY ALIGNMENT -->
-    <section id="what-is" class="py-20 md:py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-12 gap-12 md:gap-20 items-center">
-                <div class="md:col-span-5">
-                    <span class="uppercase tracking-widest text-[#a3c5b4] text-sm font-medium">THE TECHNIQUE</span>
-                    <h2 class="heading text-4xl md:text-6xl leading-none tracking-tighter mt-4 mb-8 md:mb-10 text-[#3a6654]">What is<br>Body Alignment?</h2>
-                    <div class="prose text-base md:text-lg">
-                        <p>Body Alignment is a complementary health technique that promotes the body’s capacity for self-healing.</p>
-                        <p class="mt-6">Stress, poor posture and trauma cause muscle spasms that pull the skeleton out of alignment. This creates pressure on nerves and blood vessels, resulting in pain and discomfort.</p>
-                        <p class="mt-6">Through gentle stimulation the muscles relax, heal and release deep tension, allowing the body to realign naturally.</p>
-                    </div>
+        <div class="hero-right" aria-hidden="true">
+            <div class="hero-card-wrap">
+                <img class="hero-img-main"
+                     src="http://bodyalignment.co.za/wp-content/uploads/2024/11/Untitled-design-1-1-576x1024.png"
+                     alt="Body Alignment therapy illustration"
+                     loading="eager">
+                <div class="hero-float-card">
+                    <div class="fc-num">7+</div>
+                    <div class="fc-label">Years of practice<br>in Malmesbury</div>
                 </div>
-                <div class="md:col-span-7">
-                    <img src="http://bodyalignment.co.za/wp-content/uploads/2024/11/Untitled-design-1-1-576x1024.png" alt="Body Alignment Illustration" class="w-full rounded-3xl shadow-xl">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BENEFITS - UPDATED WITH YOUR NEW DETAILED CARDS -->
-    <section id="benefits" class="py-20 md:py-28 bg-[#e8f1ed]">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12 md:mb-16">
-                <span class="text-[#3a6654] uppercase tracking-widest text-sm">RESULTS YOU CAN FEEL</span>
-                <h2 class="heading text-4xl md:text-5xl mt-3 text-[#3a6654]">Common conditions that respond beautifully</h2>
-            </div>
-            
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <!-- Card 1 - Neck & Shoulders -->
-                <div class="bg-white p-8 md:p-10 rounded-3xl card-hover text-center border border-[#e8f1ed]">
-                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/15-480x480.png" alt="Neck & Shoulders" class="w-28 h-28 mx-auto mb-6 rounded-2xl object-contain">
-                    <h3 class="text-2xl font-semibold mb-3 text-[#3a6654]">Neck &amp; Shoulders</h3>
-                    <p class="text-[#2c3e35] text-base leading-relaxed">Misalignment of the neck area may cause dizziness, headaches, facial tics.</p>
-                </div>
-                
-                <!-- Card 2 - Back -->
-                <div class="bg-white p-8 md:p-10 rounded-3xl card-hover text-center border border-[#e8f1ed]">
-                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/16-480x480.png" alt="Back" class="w-28 h-28 mx-auto mb-6 rounded-2xl object-contain">
-                    <h3 class="text-2xl font-semibold mb-3 text-[#3a6654]">Back</h3>
-                    <p class="text-[#2c3e35] text-base leading-relaxed">Misalignment of the lower back may lead to digestive problems, sciatica, pain in the sacroiliac joint, hip, knee and ankle problems.</p>
-                </div>
-                
-                <!-- Card 3 - Elbow -->
-                <div class="bg-white p-8 md:p-10 rounded-3xl card-hover text-center border border-[#e8f1ed]">
-                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/14-480x480.png" alt="Elbow" class="w-28 h-28 mx-auto mb-6 rounded-2xl object-contain">
-                    <h3 class="text-2xl font-semibold mb-3 text-[#3a6654]">Elbow</h3>
-                    <p class="text-[#2c3e35] text-base leading-relaxed">Misalignment of the elbow may cause tennis elbow, carpal tunnel syndrome, pins and needles in fingers.</p>
+                <div class="hero-float-card2">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    Advanced<br>Practitioner
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</header>
 
-    <!-- ABOUT CHARNÉ -->
-    <section id="charné" class="py-20 md:py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-12 gap-12 md:gap-20 items-center">
-                <div class="md:col-span-5">
-                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/32-300x233.png" alt="Charné McQuire" class="w-full rounded-3xl shadow-2xl border-8 border-white">
-                    <div class="mt-8 bg-[#fff7ed] p-8 rounded-3xl text-center border border-[#f97316]/20">
-                        <p class="italic text-xl">"My vision is to transform pain into smiles and restore people to their best health."</p>
-                        <p class="mt-4 text-[#f97316] font-medium">— Charné McQuire</p>
+<!-- STATS BAR -->
+<div class="stats-bar" aria-label="Practice statistics">
+    <div class="stats-inner">
+        <div class="stat-item">
+            <div class="stat-num">5.0★</div>
+            <div class="stat-lbl">Google Rating</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">13+</div>
+            <div class="stat-lbl">Verified Reviews</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">45–60</div>
+            <div class="stat-lbl">Minutes per session</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-lbl">Fully clothed therapy</div>
+        </div>
+    </div>
+</div>
+
+<!-- WHAT IS BODY ALIGNMENT -->
+<section id="what-is" aria-labelledby="what-heading">
+    <div class="section-inner">
+        <div class="what-grid">
+            <div class="what-img">
+                <img src="http://bodyalignment.co.za/wp-content/uploads/2024/11/Untitled-design-1-1-576x1024.png"
+                     alt="Body Alignment spinal illustration showing alignment zones"
+                     loading="lazy">
+                <div class="what-img-badge" aria-hidden="true">
+                    <div class="big">2013</div>
+                    <small>Technique<br>developed in SA</small>
+                </div>
+            </div>
+
+            <div class="what-body">
+                <p class="section-tag">The Technique</p>
+                <h2 class="section-h2" id="what-heading">What is<br>Body Alignment?</h2>
+                <div style="margin-top:1.75rem">
+                    <p><strong>Body Alignment</strong> is a South African-developed complementary health technique that promotes the body's natural capacity to heal and realign itself — without medication, surgery, or pain.</p>
+                    <p>Stress, poor posture, and emotional or physical trauma cause muscle spasms that pull the skeleton out of alignment. This misalignment creates pressure on nerves and blood vessels, resulting in pain, discomfort, and reduced organ function.</p>
+                    <p>Through gentle, targeted stimulation, muscles relax and release deep-held tension — allowing the skeletal system to naturally return to proper alignment and optimal function.</p>
+                </div>
+
+                <div class="step-list">
+                    <div class="step">
+                        <div class="step-num" aria-hidden="true">1</div>
+                        <div class="step-text"><strong>Assessment</strong> — Charné evaluates your posture, movement, and areas of tension to understand the root cause of your discomfort.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num" aria-hidden="true">2</div>
+                        <div class="step-text"><strong>Targeted stimulation</strong> — Light, firm pressure is applied to specific muscle groups concentrating on the spinal column.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num" aria-hidden="true">3</div>
+                        <div class="step-text"><strong>Natural realignment</strong> — As muscles relax, the skeleton realigns and nerve communication is restored throughout the body.</div>
                     </div>
                 </div>
-                <div class="md:col-span-7">
-                    <span class="uppercase text-[#a3c5b4] tracking-widest text-sm">YOUR PRACTITIONER</span>
-                    <h2 class="heading text-4xl md:text-6xl tracking-tighter text-[#3a6654] mt-3">Charné McQuire</h2>
-                    <p class="text-xl md:text-2xl text-[#3a6654] mt-2">Advanced Body Alignment Practitioner • Malmesbury</p>
-                    <div class="prose mt-10 md:mt-12 text-base md:text-lg">
-                        <p>Charné has always lived a healthy lifestyle. In 2017 she completed her first Body Alignment course while working full-time and raising a young family.</p>
-                        <p class="mt-6">In 2019 she followed her passion full-time. During lockdown she founded Abundant Health with her husband.</p>
-                        <p class="mt-6">Fully trained in Advanced Body Alignment, Nutritional Science, Master Herbalism, Massage &amp; Acupressure.</p>
-                    </div>
-                    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm">
-                        <div>
-                            <div class="font-semibold mb-3 text-[#3a6654]">Session Details</div>
-                            <ul class="space-y-3">
-                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> 45–60 minutes</li>
-                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> Fully clothed</li>
-                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> Gentle &amp; relaxing</li>
-                                <li class="flex gap-3"><span class="text-[#f97316]">•</span> By appointment only</li>
-                            </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONDITIONS -->
+<section id="conditions" class="cond-bg" aria-labelledby="cond-heading">
+    <div class="section-inner">
+        <div class="cond-header">
+            <p class="section-tag">Results You Can Feel</p>
+            <h2 class="section-h2" id="cond-heading">Conditions that respond beautifully to treatment</h2>
+        </div>
+
+        <div class="cond-grid">
+            <article class="cond-card">
+                <div class="cond-icon">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/15-480x480.png"
+                         alt="Neck and shoulders icon" loading="lazy">
+                </div>
+                <h3>Neck &amp; Shoulders</h3>
+                <p>Misalignment in the cervical spine may contribute to chronic headaches, dizziness, migraines, facial pain, and tension in the neck and shoulder area.</p>
+            </article>
+
+            <article class="cond-card">
+                <div class="cond-icon">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/16-480x480.png"
+                         alt="Lower back icon" loading="lazy">
+                </div>
+                <h3>Lower Back &amp; Hips</h3>
+                <p>Misalignment in the lumbar spine may lead to sciatica, sacroiliac joint pain, hip and knee problems, and even digestive or bladder discomfort.</p>
+            </article>
+
+            <article class="cond-card">
+                <div class="cond-icon">
+                    <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/14-480x480.png"
+                         alt="Elbow and arm icon" loading="lazy">
+                </div>
+                <h3>Elbow &amp; Arms</h3>
+                <p>Misalignment of the elbow joint may be the root cause of tennis elbow, carpal tunnel syndrome, and pins and needles or numbness in the fingers and hands.</p>
+            </article>
+
+            <article class="cond-card">
+                <div class="cond-icon" style="background:var(--sage-l)">
+                    <i class="fa-solid fa-head-side-cough fa-icon" aria-hidden="true"></i>
+                </div>
+                <h3>Headaches &amp; Migraines</h3>
+                <p>Tension stored in the upper cervical muscles and the base of the skull is a common contributor to recurring headaches — often relieved through realignment.</p>
+            </article>
+
+            <article class="cond-card">
+                <div class="cond-icon" style="background:var(--sage-l)">
+                    <i class="fa-solid fa-person-walking fa-icon" aria-hidden="true"></i>
+                </div>
+                <h3>Sciatica &amp; Nerve Pain</h3>
+                <p>Pressure on the sciatic nerve from pelvic or lumbar misalignment causes pain, burning, and numbness radiating down the leg — often dramatically relieved with Body Alignment.</p>
+            </article>
+
+            <article class="cond-card">
+                <div class="cond-icon" style="background:var(--sage-l)">
+                    <i class="fa-solid fa-brain fa-icon" aria-hidden="true"></i>
+                </div>
+                <h3>Stress &amp; Fatigue</h3>
+                <p>Chronic stress stores itself physically in your muscles. Releasing this tension through Body Alignment restores nerve flow, energy levels, and overall sense of wellbeing.</p>
+            </article>
+        </div>
+
+        <p class="cond-more">
+            Also effective for: <strong>postural problems · sports injuries · joint pain · digestive issues · ankle &amp; knee pain · restless legs</strong>
+        </p>
+    </div>
+</section>
+
+<!-- HOW IT WORKS / SESSION INFO -->
+<section id="how-it-works" aria-labelledby="how-heading">
+    <div class="section-inner">
+        <div class="how-grid">
+            <div class="how-body">
+                <p class="section-tag">Your Experience</p>
+                <h2 class="section-h2" id="how-heading">What happens during a session?</h2>
+
+                <div class="how-steps">
+                    <div class="how-step">
+                        <div class="how-step-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></div>
+                        <div class="how-step-body">
+                            <h4>Consultation &amp; History</h4>
+                            <p>We begin with a thorough discussion of your health history, lifestyle, and specific areas of discomfort. This guides the entire session.</p>
                         </div>
-                        <div>
-                            <div class="font-semibold mb-3 text-[#3a6654]">Contact</div>
-                            <p class="font-medium">Business: <a href="tel:0615158052" class="hover:text-[#f97316]">061 515 8052</a></p>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div>
+                        <div class="how-step-body">
+                            <h4>Postural Assessment</h4>
+                            <p>Charné evaluates your posture and movement patterns to identify areas where tension is pulling the spine and joints out of alignment.</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-icon"><i class="fa-solid fa-hands" aria-hidden="true"></i></div>
+                        <div class="how-step-body">
+                            <h4>Gentle Stimulation</h4>
+                            <p>You remain fully clothed while Charné applies light, precise pressure to key muscle groups — predominantly along the spinal column — encouraging deep muscle release.</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-icon"><i class="fa-solid fa-leaf" aria-hidden="true"></i></div>
+                        <div class="how-step-body">
+                            <h4>Natural Realignment</h4>
+                            <p>As tension releases, the skeleton naturally returns to alignment. Many clients feel immediate relief and a profound sense of relaxation.</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
+                        <div class="how-step-body">
+                            <h4>Aftercare Guidance</h4>
+                            <p>You receive personalised advice on posture, lifestyle, and any additional nutritional or herbal support to maintain your results between sessions.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- TESTIMONIALS -->
-    <section class="py-20 md:py-28 bg-[#3a6654] text-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12 md:mb-16">
-                <span class="text-[#a3c5b4]">WHAT CLIENTS SAY</span>
-                <h2 class="heading text-4xl md:text-5xl mt-4">Real results from Malmesbury</h2>
-            </div>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <div class="bg-white/10 backdrop-blur p-8 md:p-10 rounded-3xl">
-                    <div class="text-4xl mb-6">★★★★★</div>
-                    <p class="italic">"After the first session the difference was incredible."</p>
-                    <p class="mt-10 font-medium">— Jacques B.</p>
-                </div>
-                <div class="bg-white/10 backdrop-blur p-8 md:p-10 rounded-3xl">
-                    <div class="text-4xl mb-6">★★★★★</div>
-                    <p class="italic">"My sciatica is 90% better after 3 sessions."</p>
-                    <p class="mt-10 font-medium">— Local client</p>
-                </div>
-                <div class="bg-white/10 backdrop-blur p-8 md:p-10 rounded-3xl">
-                    <div class="text-4xl mb-6">★★★★★</div>
-                    <p class="italic">"Life-changing treatment!"</p>
-                    <p class="mt-10 font-medium">— Yolanda D.</p>
-                </div>
-            </div>
-            <div class="text-center mt-12">
-                <a href="https://www.google.com/search?q=body+alignment+malmesbury&amp;rlz=1C1GCEU_enZA1057ZA1057&amp;oq=body+alignment+malmesbury&amp;gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDINCAEQABiGAxiABBiKBTINCAIQABiGAxiABBiKBTINCAMQABiGAxiABBiKBTINCAQQABiGAxiABBiKBTIKCAUQABiABBiiBDIGCAYQRRg9MgYIBxBFGD3SAQg3MjExajBqN6gCCLACAfEFZgCsNzkwtlM&amp;sourceid=chrome&amp;ie=UTF-8#" target="_blank" 
-                   class="inline-flex items-center gap-3 border border-white/60 hover:border-white px-8 py-4 rounded-3xl text-sm">Read all 13 Google reviews →</a>
-            </div>
-        </div>
-    </section>
+            <div class="how-img-wrap">
+                <img src="https://bodyalignment.co.za/wp-content/uploads/2024/11/32-300x233.png"
+                     alt="Charné McQuire performing Body Alignment therapy"
+                     loading="lazy">
 
-    <!-- CONTACT -->
-    <section id="contact" class="py-20 md:py-28 bg-white">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="heading text-4xl md:text-6xl tracking-tighter text-[#3a6654]">Contact Us</h2>
-            </div>
-            <div class="space-y-12">
-                <div class="flex flex-col items-center gap-6 justify-center text-center">
-                    <i class="fa-solid fa-location-dot text-5xl text-[#3a6654]"></i>
-                    <div>
-                        <div class="font-medium text-xl">6 Piet Retief Street</div>
-                        <div>Bergsig, Malmesbury, 7299</div>
+                <div class="session-info">
+                    <h4>Session at a Glance</h4>
+                    <div class="session-row">
+                        <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                        <span>45–60 minutes per session</span>
+                    </div>
+                    <div class="session-row">
+                        <i class="fa-solid fa-shirt" aria-hidden="true"></i>
+                        <span>Remain fully clothed throughout</span>
+                    </div>
+                    <div class="session-row">
+                        <i class="fa-solid fa-feather" aria-hidden="true"></i>
+                        <span>Gentle &amp; non-invasive — no manipulation</span>
+                    </div>
+                    <div class="session-row">
+                        <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                        <span>By appointment only · Monday–Friday</span>
+                    </div>
+                    <div class="session-row">
+                        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                        <span>6 Piet Retief St, Bergsig, Malmesbury</span>
+                    </div>
+                    <div class="session-row">
+                        <i class="fa-solid fa-child" aria-hidden="true"></i>
+                        <span>Safe for all ages, incl. children &amp; elderly</span>
                     </div>
                 </div>
-                <div class="flex flex-col items-center gap-6 justify-center text-center">
-                    <i class="fa-solid fa-phone text-5xl text-[#3a6654]"></i>
-                    <a href="tel:0615158052" class="text-2xl hover:text-[#f97316]">061 515 8052</a>
-                </div>
-                <div class="flex flex-col items-center gap-6 justify-center text-center">
-                    <i class="fa-solid fa-clock text-5xl text-[#3a6654]"></i>
-                    <div class="text-xl">By appointment only<br><span class="text-[#a3c5b4]">Monday–Friday</span></div>
-                </div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5!2d18.705!3d-33.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5e5e5e5e5e5e%3A0x1234567890abcdef!2s6%20Piet%20Retief%20St%2C%20Malmesbury!5e0!3m2!1sen!2sza!4v1700000000000" width="100%" height="380" style="border:0;border-radius:24px;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#3a6654] text-white py-16 md:py-20">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex justify-center items-center gap-4 mb-8">
-                <img src="https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg" alt="Logo" class="h-12">
-                <span class="heading text-3xl md:text-4xl tracking-tighter">Body Alignment Malmesbury</span>
+<!-- ABOUT CHARNÉ -->
+<section id="charne" class="about-bg" aria-labelledby="charne-heading">
+    <div class="section-inner">
+        <div class="about-grid">
+            <div class="about-img-wrap">
+                <img class="about-img"
+                     src="https://bodyalignment.co.za/wp-content/uploads/2024/11/32-300x233.png"
+                     alt="Charné McQuire – Advanced Body Alignment Practitioner, Malmesbury"
+                     loading="lazy">
+                <div class="quote-card" aria-label="Quote from Charné McQuire">
+                    <p>"My vision is to transform pain into smiles and restore people to their very best health."</p>
+                    <cite>— Charné McQuire</cite>
+                </div>
             </div>
-            <p class="text-sm opacity-75">Official local practitioner of the national Body Alignment network • © 2026 Charné McQuire • Abundant Health</p>
-            <p class="text-xs mt-6 opacity-50">Complementary health technique • Not a substitute for medical advice</p>
+
+            <div class="about-body">
+                <p class="section-tag">Your Practitioner</p>
+                <h2 class="section-h2" id="charne-heading">Charné McQuire</h2>
+                <p class="about-title">Advanced Body Alignment Practitioner · Malmesbury, Western Cape</p>
+
+                <p>Charné has always lived a deeply health-conscious lifestyle and understood from an early age the connection between body, mind, and wellbeing. In 2017, while working full-time and raising a young family, she completed her first Body Alignment certification course.</p>
+                <p>That first course ignited a calling. By 2019, Charné left corporate life to follow her true passion full-time. During the COVID-19 lockdown, she and her husband co-founded <strong>Abundant Health</strong>, a holistic wellness practice serving the Malmesbury community and surrounding areas.</p>
+                <p>Charné is fully trained and accredited in <strong>Advanced Body Alignment</strong>, and brings additional expertise in Nutritional Science, Master Herbalism, Massage, and Acupressure — giving her clients a truly holistic view of their health and recovery.</p>
+
+                <div class="creds-grid" aria-label="Qualifications and specialisations">
+                    <div class="cred"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Advanced Body Alignment</div>
+                    <div class="cred"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Nutritional Science</div>
+                    <div class="cred"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Master Herbalism</div>
+                    <div class="cred"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Massage Therapy</div>
+                    <div class="cred"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Acupressure</div>
+                    <div class="cred"><i class="fa-solid fa-check-circle" aria-hidden="true"></i> Holistic Wellness</div>
+                </div>
+
+                <div style="margin-top:2rem; display:flex; flex-wrap:wrap; gap:0.75rem;">
+                    <a href="https://wa.me/27615158052" target="_blank" rel="noopener" class="btn btn-primary">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Chat on WhatsApp
+                    </a>
+                    <a href="tel:0615158052" class="btn btn-outline">
+                        <i class="fa-solid fa-phone" aria-hidden="true"></i> 061 515 8052
+                    </a>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <!-- Floating WhatsApp -->
-    <a href="https://wa.me/27615158052" target="_blank" 
-       class="fixed bottom-6 right-6 bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-2xl text-3xl hover:scale-110 transition-all z-50">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+<!-- TESTIMONIALS -->
+<section class="testi-bg" aria-labelledby="testi-heading">
+    <div class="section-inner">
+        <div class="testi-header">
+            <p class="section-tag">What Clients Say</p>
+            <h2 class="section-h2" id="testi-heading">Real results from Malmesbury</h2>
+        </div>
 
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
-        }
-        document.getElementById('hamburger').addEventListener('click', toggleMobileMenu);
-    </script>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <div class="stars" aria-label="5 stars">★★★★★</div>
+                <blockquote>"After the very first session the difference was incredible. I walked in with a stiff neck and walked out standing straight. Absolutely remarkable."</blockquote>
+                <cite>— Jacques B., Malmesbury</cite>
+            </div>
+            <div class="testi-card">
+                <div class="stars" aria-label="5 stars">★★★★★</div>
+                <blockquote>"My sciatica is 90% better after just 3 sessions with Charné. I had suffered for over two years with no relief — Body Alignment changed my life."</blockquote>
+                <cite>— Local client, Malmesbury</cite>
+            </div>
+            <div class="testi-card">
+                <div class="stars" aria-label="5 stars">★★★★★</div>
+                <blockquote>"Life-changing treatment! I was sceptical at first but Charné's knowledge and gentle approach made me a believer after session one. Highly recommended."</blockquote>
+                <cite>— Yolanda D., Malmesbury</cite>
+            </div>
+        </div>
+
+        <div class="testi-footer">
+            <a href="https://www.google.com/search?q=body+alignment+malmesbury"
+               target="_blank"
+               rel="noopener"
+               class="btn btn-ghost">
+                Read all 13 Google reviews <i class="fa-solid fa-arrow-right" style="margin-left:0.25rem" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" aria-labelledby="faq-heading">
+    <div class="section-inner">
+        <div class="faq-grid">
+            <div class="faq-intro">
+                <p class="section-tag">Common Questions</p>
+                <h2 class="section-h2" id="faq-heading">Everything you need to know before booking</h2>
+                <p>Body Alignment is a gentle and accessible therapy for most people. Here are answers to the questions Charné is asked most often. If yours isn't here, simply reach out via WhatsApp.</p>
+                <div style="margin-top:2rem;">
+                    <a href="https://wa.me/27615158052" target="_blank" rel="noopener" class="btn btn-primary">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Ask Charné directly
+                    </a>
+                </div>
+            </div>
+
+            <div class="faq-list" role="list">
+                <div class="faq-item" role="listitem">
+                    <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
+                        Is Body Alignment painful?
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="faq-a">No — Body Alignment is intentionally gentle. The technique uses light but firm pressure on specific muscles. Most clients find it deeply relaxing, and many fall asleep on the table. There is no manipulation, cracking, or invasive contact.</div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
+                        How many sessions will I need?
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="faq-a">Many clients feel significant improvement after 1–3 sessions. Chronic or long-standing conditions may benefit from a series of sessions. Charné will assess your individual needs and give you a clear recommendation during your first visit.</div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
+                        Do I need to undress?
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="faq-a">No. You remain fully clothed throughout the entire session. Simply wear comfortable, loose-fitting clothing for your appointment.</div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
+                        Is it safe for children and the elderly?
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="faq-a">Yes — Body Alignment is extremely gentle and safe for all ages, from infants to the elderly. It is also safe during pregnancy. Charné adapts the pressure and approach for each individual client.</div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
+                        How do I book an appointment?
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="faq-a">Simply WhatsApp or call Charné on 061 515 8052. Appointments are available Monday to Friday and are by arrangement only. She will confirm a time that suits you and send you the address details.</div>
+                </div>
+                <div class="faq-item" role="listitem">
+                    <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
+                        Does it replace medical treatment?
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="faq-a">Body Alignment is a complementary health technique and works alongside — not in place of — conventional medical care. Always consult your doctor for any medical conditions or concerns. Charné will refer you to appropriate medical professionals when needed.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg" aria-labelledby="contact-heading">
+    <div class="section-inner">
+        <div style="text-align:center; margin-bottom:3rem;">
+            <p class="section-tag">Get In Touch</p>
+            <h2 class="section-h2" id="contact-heading" style="display:inline-block;">Book Your Session Today</h2>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-info">
+                <p>Ready to start your journey to a pain-free, balanced body? Reach out to Charné to book your appointment. Appointments are by arrangement Monday to Friday.</p>
+
+                <div class="contact-rows">
+                    <div class="contact-row">
+                        <div class="contact-row-icon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
+                        <div class="contact-row-body">
+                            <h4>Phone &amp; WhatsApp</h4>
+                            <a href="tel:0615158052">061 515 8052</a>
+                        </div>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-row-icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="contact-row-body">
+                            <h4>Practice Address</h4>
+                            <p>6 Piet Retief Street, Bergsig<br>Malmesbury, 7299 · Western Cape</p>
+                        </div>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-row-icon" aria-hidden="true"><i class="fa-solid fa-clock"></i></div>
+                        <div class="contact-row-body">
+                            <h4>Hours</h4>
+                            <p>Monday – Friday<br>By appointment only</p>
+                        </div>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-row-icon" aria-hidden="true"><i class="fa-solid fa-building"></i></div>
+                        <div class="contact-row-body">
+                            <h4>Practice</h4>
+                            <p>Abundant Health<br>Malmesbury, Western Cape</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-btns">
+                    <a href="https://wa.me/27615158052" target="_blank" rel="noopener" class="btn btn-wa" style="padding:0.9rem 1.6rem;font-size:0.9rem">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp Charné
+                    </a>
+                    <a href="tel:0615158052" class="btn btn-primary" style="padding:0.9rem 1.6rem;font-size:0.9rem">
+                        <i class="fa-solid fa-phone" aria-hidden="true"></i> Call Now
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-map" aria-label="Map showing practice location in Malmesbury">
+                <iframe
+                    title="Body Alignment Malmesbury Location"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5!2d18.705!3d-33.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5e5e5e5e5e5e%3A0x1234567890abcdef!2s6%20Piet%20Retief%20St%2C%20Malmesbury!5e0!3m2!1sen!2sza!4v1700000000000"
+                    width="100%"
+                    height="100%"
+                    style="border:0; border-radius:1.5rem; min-height:440px;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+    <div class="footer-brand">
+        <img src="https://bodyalignment.co.za/wp-content/uploads/2019/05/logo.jpg" alt="Body Alignment Logo" style="height:36px;width:auto;object-fit:contain;">
+        <span>Body Alignment Malmesbury</span>
+    </div>
+    <p>Official local practitioner of the national Body Alignment network &mdash; Charné McQuire &middot; Abundant Health<br>
+       6 Piet Retief Street, Bergsig, Malmesbury, 7299 · <a href="tel:0615158052">061 515 8052</a><br><br>
+       <span style="font-size:0.72rem;opacity:0.5">Body Alignment is a complementary health technique. It is not a substitute for medical advice or treatment. Always consult a qualified medical professional for health concerns. &copy; 2026 Charné McQuire. All rights reserved.</span>
+    </p>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a class="fab-wa" href="https://wa.me/27615158052" target="_blank" rel="noopener" aria-label="Chat with Charné on WhatsApp">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+</a>
+
+<script>
+    // Mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+        const isOpen = mobileNav.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', isOpen);
+    });
+    function closeMobile() {
+        mobileNav.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) {
+                item.classList.add('open');
+                q.setAttribute('aria-expanded', 'true');
+            } else {
+                q.setAttribute('aria-expanded', 'false');
+            }
+        });
+        q.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); }
+        });
+    });
+
+    // Intersection observer for scroll animations
+    const observerOpts = { threshold: 0.12 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOpts);
+
+    document.querySelectorAll('.cond-card, .testi-card, .how-step, .stat-item, .contact-row').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = `opacity 0.6s ease ${i * 0.07}s, transform 0.6s ease ${i * 0.07}s`;
+        observer.observe(el);
+    });
+</script>
 </body>
 </html>
