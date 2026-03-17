@@ -739,6 +739,43 @@
         }
         .btn-ghost:hover { background: rgba(255,255,255,0.1); }
 
+/* Google badge */
+    .testi-footer { margin-top:3rem; display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+    .google-badge { display:inline-flex; align-items:center; gap:1rem; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:1rem; padding:1rem 1.5rem; }
+    .google-badge-info .g-rating { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:white; line-height:1; }
+    .google-badge-info .g-stars { color:#fbbf24; font-size:.9rem; margin:.1rem 0; }
+    .google-badge-info .g-count { font-size:.75rem; color:rgba(255,255,255,.6); }
+	
+	
+    /* ═══════════════════════════════════════════
+       PRICING
+    ═══════════════════════════════════════════ */
+    .pricing-bg { background:var(--cream); }
+    .pricing-header { text-align:center; margin-bottom:3.5rem; }
+    .pricing-header p { margin-top:.75rem; color:var(--text-m); font-size:.95rem; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; max-width:960px; margin:0 auto; }
+    .pricing-card { background:white; border:1.5px solid rgba(122,171,149,.25); border-radius:1.5rem; padding:2.25rem 2rem; position:relative; transition:transform .3s,box-shadow .3s; text-align:center; }
+    .pricing-card:hover { transform:translateY(-4px); box-shadow:0 20px 48px rgba(46,88,69,.1); }
+    .pricing-card.featured { background:var(--forest); border-color:var(--forest); color:white; transform:scale(1.04); box-shadow:0 24px 64px rgba(46,88,69,.3); }
+    .pricing-card.featured:hover { transform:scale(1.04) translateY(-4px); }
+    .pricing-badge { position:absolute; top:-.85rem; left:50%; transform:translateX(-50%); background:var(--amber); color:white; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.3rem .85rem; border-radius:100px; white-space:nowrap; }
+    .pricing-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; color:var(--forest); margin-bottom:.35rem; }
+    .pricing-card.featured .pricing-name { color:var(--sage-l); }
+    .pricing-price { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:700; color:var(--forest); line-height:1; margin:1rem 0 .35rem; }
+    .pricing-card.featured .pricing-price { color:white; }
+    .pricing-price sup { font-size:1.2rem; vertical-align:super; }
+    .pricing-period { font-size:.78rem; color:var(--text-m); margin-bottom:1.5rem; }
+    .pricing-card.featured .pricing-period { color:rgba(255,255,255,.6); }
+    .pricing-features { list-style:none; text-align:left; margin-bottom:2rem; display:flex; flex-direction:column; gap:.65rem; }
+    .pricing-features li { display:flex; align-items:flex-start; gap:.6rem; font-size:.88rem; color:var(--text-m); line-height:1.5; }
+    .pricing-card.featured .pricing-features li { color:rgba(255,255,255,.85); }
+    .pricing-features li .ptick { color:var(--sage); flex-shrink:0; font-weight:700; }
+    .pricing-card.featured .pricing-features li .ptick { color:var(--sage-l); }
+    .pricing-cta { width:100%; justify-content:center; }
+    .pricing-note { text-align:center; margin-top:2rem; font-size:.82rem; color:var(--text-m); }
+    .pricing-note a { color:var(--forest); font-weight:600; text-decoration:none; }
+
+
         /* ── FAQ ── */
         .faq-grid {
             display: grid;
@@ -1032,14 +1069,7 @@
 <section id="what-is" aria-labelledby="what-heading">
     <div class="section-inner">
         <div class="what-grid">
-            <div class="what-img">
-                <!-- PERFORMANCE FIX: lazy load + explicit dimensions -->
-                <img src="4.png" alt="Body Alignment spinal illustration showing alignment zones" loading="lazy">
-                <div class="what-img-badge" aria-hidden="true">
-                    <div class="big">2013</div>
-                    <small>Technique<br>developed in SA</small>
-                </div>
-            </div>
+        
 
             <div class="what-body">
                 <p class="section-tag">The Technique</p>
@@ -1287,11 +1317,22 @@
         </div>
 
         <div class="testi-footer">
-            <a href="https://www.google.com/search?q=body+alignment+malmesbury" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="Read all 14 or more Google reviews (opens in new tab)">
-                Read all 14+ Google reviews <i class="fa-solid fa-arrow-right" style="margin-left:0.25rem" aria-hidden="true"></i>
-            </a>
+      <div class="google-badge" role="region" aria-label="Google rating summary">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+        </svg>
+        <div class="google-badge-info">
+          <div class="g-rating">5.0</div>
+          <div class="g-stars" aria-label="5 stars">★★★★★</div>
+          <div class="g-count">14 Google Reviews</div>
         </div>
+      </div>
+      <a href="https://www.google.com/search?q=body+alignment+malmesbury" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="Read all Google reviews">Read all reviews on Google →</a>
     </div>
+            
 </section>
 
 <!-- FAQ -->
@@ -1337,7 +1378,7 @@
                         Is it safe for children and the elderly?
                         <i class="fa-solid fa-plus" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4">Yes — Body Alignment is extremely gentle and safe for all ages, from infants to the elderly. It is also safe during pregnancy. Charné adapts the pressure and approach for each individual client.</div>
+                    <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4">Yes — Body Alignment is extremely gentle and safe for all ages, from infants to the elderly. Charné adapts the pressure and approach for each individual client.</div>
                 </div>
                 <div class="faq-item" role="listitem">
                     <button class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">
@@ -1356,6 +1397,61 @@
             </div>
         </div>
     </div>
+</section>
+
+<section id="pricing" class="pricing-bg" aria-labelledby="pricing-heading">
+  <div class="section-inner">
+    <div class="pricing-header">
+     
+      <h2 class="section-h2" id="pricing-heading">Session Fees</h2>
+      <p>No hidden costs. Pay per session or save with a package. All sessions by appointment.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s 1.26s, transform 0.6s 1.26s;">
+        <p class="pricing-name">Single Session</p>
+        <div class="pricing-price"><sup>R</sup>500</div>
+        <p class="pricing-period">per session · 45–60 min</p>
+        <ul class="pricing-features">
+          <li><span class="ptick">✓</span> Full postural assessment</li>
+          <li><span class="ptick">✓</span> Targeted spinal treatment</li>
+          <li><span class="ptick">✓</span> Aftercare guidance</li>
+          <li><span class="ptick">✓</span> Remain fully clothed</li>
+          <li><span class="ptick">✓</span> By appointment Mon–Fri</li>
+        </ul>
+        <a href="https://wa.me/27615158052?text=Hi%20Charne%2C%20I%27d%20like%20to%20book%20a%20single%20session%20please." target="_blank" rel="noopener noreferrer" class="btn btn-outline pricing-cta" aria-label="Book single session via WhatsApp">💬 Book Now</a>
+      </div>
+      <div class="pricing-card featured" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s 1.33s, transform 0.6s 1.33s;">
+        <div class="pricing-badge">Most Popular</div>
+        <p class="pricing-name">3-Session Package</p>
+        <div class="pricing-price"><sup>R</sup>1 350</div>
+        <p class="pricing-period">save R150 · best for chronic conditions</p>
+        <ul class="pricing-features">
+          <li><span class="ptick">✓</span> Everything in Single Session</li>
+          <li><span class="ptick">✓</span> Progressive realignment and maintenance plan</li>
+          <li><span class="ptick">✓</span> Priority appointment bookings</li>
+          <li><span class="ptick">✓</span> Personalised care plan</li>
+          
+        </ul>
+        <a href="https://wa.me/27615158052?text=Hi%20Charne%2C%20I%27d%20like%20to%20book%20the%203-session%20package%20please." target="_blank" rel="noopener noreferrer" class="btn btn-hero-primary pricing-cta" style="color:var(--forest)" aria-label="Book 3-session package via WhatsApp">💬 Book Package</a>
+      </div>
+      <div class="pricing-card" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s 1.4s, transform 0.6s 1.4s;">
+        <p class="pricing-name">Vouchers Avialable</p>
+        <div class="pricing-price"><sup>R</sup>500</div>
+        <p class="pricing-period">per session · returning clients</p>
+        <ul class="pricing-features">
+          <li><span class="ptick">✓</span> Everything in Single Session</li>
+          <li><span class="ptick">✓</span> Body Alignment Branded Physical or Digital Voucher for full session </li>
+          <li><span class="ptick">✓</span> Voucher Valid for 12 months from purchase date</li>
+          <li><span class="ptick">✓</span> The gift of a more pain free life</li>
+          <li><span class="ptick">✓</span> By appointment Mon–Fri</li>
+        </ul>
+        <a href="https://wa.me/27615158052?text=Hi%20Charne%2C%20I%27d%20like%20to%20book%20a%20follow-up%20session%20please." target="_blank" rel="noopener noreferrer" class="btn btn-outline pricing-cta" aria-label="Book follow-up session via WhatsApp">💬 Book Now</a>
+      </div>
+    </div>
+    <!-- FIX: Removed "prices are indicative" disclaimer (undermined trust at decision point) -->
+    <!-- FIX: Replaced with risk reversal — reduces booking anxiety -->
+    <p class="pricing-note">Not sure which option suits you? <a href="https://wa.me/27615158052?text=Hi%20Charne%2C%20I%27d%20like%20to%20ask%20about%20pricing%20before%20booking." target="_blank" rel="noopener noreferrer">Ask Charné via WhatsApp</a> — no obligation, just a conversation.</p>
+  </div>
 </section>
 
 <!-- CONTACT -->
