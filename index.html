@@ -19,7 +19,7 @@
     <link rel="manifest" href="blob:null/eeebe266-6289-4a47-b616-dbeae7685bf8">
 
     <!-- SECURITY: Content Security Policy (NEW from v2) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src https://www.google-analytics.com; frame-src https://www.google.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src https://www.google-analytics.com https://*.basemaps.cartocdn.com https://bodyalignment.co.za; frame-src https://www.google.com;">
 
     <!-- ANALYTICS: Google Analytics 4 (NEW from v2) — replace G-XXXXXXXXXX with your Measurement ID -->
     <!-- Sign up free at analytics.google.com → Admin → Create Property → Get Measurement ID -->
@@ -823,9 +823,9 @@
       font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600;
       color: var(--finder-forest); letter-spacing: .01em;
     }
-    .sort-row { display: flex; align-items: center; gap: 6px; }
-    .sort-label { font-size: .72rem; color: var(--finder-mid-grey); }
-    .sort-select {
+    .tray-header .sort-row { display: flex; align-items: center; gap: 6px; }
+    .tray-header .sort-label { font-size: .72rem; color: var(--finder-mid-grey); }
+    .tray-header .sort-select {
       padding: 4px 8px; border: 1px solid var(--finder-light-grey);
       border-radius: var(--finder-radius-sm); font-family: 'DM Sans', sans-serif;
       font-size: .72rem; color: var(--finder-charcoal); background: var(--finder-warm-white);
@@ -898,9 +898,9 @@
     .card-view-btn:hover { background: var(--finder-forest-mid, #3a7050); }
 
     /* ─── Empty state ─── */
-    .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--finder-mid-grey); padding: 20px; text-align: center; }
-    .empty-state svg { opacity: .3; }
-    .empty-state p { font-size: .85rem; }
+    .finder-widget .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--finder-mid-grey); padding: 20px; text-align: center; }
+    .finder-widget .empty-state svg { opacity: .3; }
+    .finder-widget .empty-state p { font-size: .85rem; }
 
     /* ─── Detail sheet (fixed overlay, above original nav z-index:100) ─── */
     .sheet-overlay {
@@ -938,12 +938,12 @@
     .sheet-hero-name { position: absolute; bottom: 16px; left: 20px; font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: white; text-shadow: 0 2px 10px rgba(0,0,0,.4); pointer-events: none; line-height: 1.1; }
     .sheet-hero-badge { position: absolute; top: 14px; left: 14px; background: rgba(45,90,61,.85); color: white; font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 4px; }
     .sheet-body { padding: 20px 22px 32px; }
-    .info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: .9rem; color: var(--finder-body-text); }
-    .info-row .icon-wrap { width: 32px; height: 32px; background: var(--finder-sage-bg); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
-    .info-row .icon-wrap svg { width: 16px; height: 16px; color: var(--finder-forest); }
-    .info-row .info-content { flex: 1; padding-top: 6px; }
-    .info-row a { color: var(--finder-forest); text-decoration: none; font-weight: 500; }
-    .info-row a:hover { text-decoration: underline; }
+    .sheet-body .info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: .9rem; color: var(--finder-body-text); }
+    .sheet-body .info-row .icon-wrap { width: 32px; height: 32px; background: var(--finder-sage-bg); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
+    .sheet-body .info-row .icon-wrap svg { width: 16px; height: 16px; color: var(--finder-forest); }
+    .sheet-body .info-row .info-content { flex: 1; padding-top: 6px; }
+    .sheet-body .info-row a { color: var(--finder-forest); text-decoration: none; font-weight: 500; }
+    .sheet-body .info-row a:hover { text-decoration: underline; }
     .info-label { font-size: .66rem; font-weight: 600; color: var(--finder-mid-grey); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 1px; }
     .bio-box { background: var(--finder-cream); border-left: 3px solid var(--finder-sage); border-radius: 0 var(--finder-radius-sm) var(--finder-radius-sm) 0; padding: 12px 14px; margin: 14px 0; font-size: .85rem; color: var(--finder-mid-grey); line-height: 1.7; font-style: italic; }
     .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
@@ -1661,14 +1661,7 @@ const finderObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 finderObserver.observe(document.getElementById('finder'));
 
-/* Wire search after DOM ready (DOMContentLoaded already fired, use direct assignment) */
-(function() {
-    const inp = document.getElementById('searchInput');
-    if (inp) {
-        inp.addEventListener('input', finderDebounce(liveSearch, 280));
-        inp.addEventListener('keydown', e => { if (e.key === 'Enter') liveSearch(); });
-    }
-})();
+/* Search input wired below, after finderDebounce is defined */
 
 function finderInitMap() {
     finderMap = L.map('finderMap', { center: [-33.9, 18.6], zoom: 9, zoomControl: false, tap: true, tapTolerance: 15 });
@@ -1895,6 +1888,13 @@ function haversine(lat1, lon1, lat2, lon2) {
 }
 
 function finderDebounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
+
+/* Wire search input — placed here so finderDebounce is already defined */
+const _finderSearchInp = document.getElementById('searchInput');
+if (_finderSearchInp) {
+    _finderSearchInp.addEventListener('input', finderDebounce(liveSearch, 280));
+    _finderSearchInp.addEventListener('keydown', e => { if (e.key === 'Enter') liveSearch(); });
+}
 
 let _finderToastTimer;
 function finderToast(msg) {
