@@ -609,6 +609,379 @@
             .hero-btns .btn{justify-content:center}
         }
     </style>
+
+    <!-- ═══ PRACTITIONER FINDER — dependencies ═══ -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+    /* ─── Finder CSS variables (extend :root without changing originals) ─── */
+    :root {
+      --finder-forest:      #2d5a3d;
+      --finder-forest-mid:  #3a7050;
+      --finder-sage:        #7aab8a;
+      --finder-sage-pale:   #c8dece;
+      --finder-sage-bg:     #eef6f1;
+      --finder-cream:       #f7f3ed;
+      --finder-warm-white:  #fefcf9;
+      --finder-charcoal:    #242424;
+      --finder-body-text:   #3e3e3e;
+      --finder-mid-grey:    #707070;
+      --finder-light-grey:  #e5e0d9;
+      --finder-gold:        #b8955a;
+      --finder-gold-lt:     #d4b07a;
+      --finder-gold-pale:   #f5ead8;
+      --finder-wa-green:    #25D366;
+      --finder-radius-sm:   8px;
+      --finder-radius-md:   14px;
+      --finder-radius-lg:   20px;
+      --finder-shadow-sm:   0 2px 8px rgba(0,0,0,.09);
+      --finder-shadow-md:   0 4px 20px rgba(0,0,0,.13);
+      --finder-shadow-lg:   0 8px 40px rgba(0,0,0,.18);
+      --finder-transition:  0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─── Finder section wrapper ─── */
+    .finder-section {
+      background: var(--finder-forest);
+      padding: 0;
+    }
+    .finder-intro-block {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 3rem;
+      text-align: center;
+    }
+    .finder-intro-block .section-tag { color: var(--finder-sage-pale); }
+    .finder-intro-block h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.15;
+      margin: 0.5rem 0 1rem;
+    }
+    .finder-intro-block h2 em { font-style: italic; color: var(--finder-gold-lt); }
+    .finder-intro-block p { color: rgba(255,255,255,.68); font-size: .95rem; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+    .finder-divider-line { width: 48px; height: 2px; background: var(--finder-gold); margin: 1.25rem auto; border-radius: 2px; }
+
+    /* ─── Widget container ─── */
+    .finder-widget {
+      position: relative;
+      height: 680px;
+    }
+    @media (max-width: 700px) {
+      .finder-widget { height: calc(100svh - 72px); min-height: 520px; max-height: 740px; }
+    }
+
+    /* ─── Inner .app shell (contained, NOT full viewport) ─── */
+    .finder-widget .app {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      overflow: hidden; height: 100%;
+    }
+    /* Desktop: sidebar layout */
+    @media (min-width: 701px) {
+      .finder-widget .app { flex-direction: row; }
+      .finder-widget .map-region { flex: 1 1 0; height: 100%; }
+      .finder-widget .tray {
+        width: 340px; height: 100%; flex-direction: column;
+        border-top: none; border-left: 1.5px solid var(--finder-light-grey);
+        box-shadow: -2px 0 12px rgba(0,0,0,.06);
+      }
+      .finder-widget .card-scroll {
+        flex-direction: column; overflow-x: hidden; overflow-y: auto;
+        align-items: stretch; scroll-snap-type: none; gap: 0; padding: 0;
+      }
+      .finder-widget .prac-card {
+        width: 100%; border-radius: 0; border: none;
+        border-bottom: 1px solid var(--finder-light-grey);
+        padding: 13px 15px; flex-direction: row; align-items: center;
+        gap: 11px; scroll-snap-align: none;
+      }
+      .finder-widget .prac-card::before { display: none; }
+      .finder-widget .prac-card.active {
+        background: var(--finder-sage-bg);
+        border-left: 3px solid var(--finder-forest); padding-left: 12px;
+      }
+      .finder-widget .prac-card:hover { transform: none; background: #edf5f0; box-shadow: none; }
+      .finder-widget .card-avatar, .finder-widget .card-avatar-ph { width: 52px; height: 52px; }
+      .finder-widget .card-top { flex: 1; align-items: center; }
+      .finder-widget .card-meta { flex: 1; min-width: 0; }
+      .finder-widget .card-dist { display: none; }
+      .finder-widget .card-phone { display: none; }
+      .finder-widget .card-view-btn { display: none; }
+      .finder-widget .tray-header { padding: 12px 15px 10px; }
+      .finder-widget .loc-banner { display: none !important; }
+    }
+    @media (max-width: 700px) {
+      .finder-widget .tray { height: 220px; }
+      .finder-widget .prac-card { width: 175px; }
+      .finder-widget .loc-banner { bottom: 232px; }
+    }
+    @media (max-width: 400px) {
+      .finder-widget .prac-card { width: 160px; }
+    }
+    .finder-widget .app-header { display: none !important; }
+
+    /* ─── Map region ─── */
+    .finder-widget .map-region {
+      position: relative; flex: 1 1 0; min-height: 0; overflow: hidden;
+    }
+    #finderMap { position: absolute; inset: 0; background: #e4ede7; }
+
+    /* ─── Floating search bar ─── */
+    .map-search {
+      position: absolute; top: 14px; left: 50%;
+      transform: translateX(-50%); z-index: 50;
+      width: min(560px, calc(100% - 28px));
+      display: flex; gap: 8px;
+      filter: drop-shadow(0 4px 18px rgba(0,0,0,.22));
+    }
+    .search-pill {
+      flex: 1; display: flex; align-items: center;
+      background: white; border-radius: 50px;
+      padding: 0 16px 0 14px; gap: 10px; height: 48px;
+    }
+    .search-pill svg { color: var(--finder-mid-grey); flex-shrink: 0; width: 18px; height: 18px; }
+    .search-pill input {
+      flex: 1; border: none; outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: .92rem;
+      color: var(--finder-charcoal); background: transparent; -webkit-appearance: none;
+    }
+    .search-pill input::placeholder { color: #aaa; }
+    .clear-btn {
+      background: none; border: none; color: #bbb; cursor: pointer;
+      font-size: 1rem; line-height: 1; display: none; padding: 2px 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .search-pill input:not(:placeholder-shown) ~ .clear-btn { display: block; }
+    .btn-near-me {
+      height: 48px; padding: 0 18px; background: var(--finder-gold); color: white;
+      border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 7px; white-space: nowrap; flex-shrink: 0;
+      transition: background var(--finder-transition), transform .1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-near-me:hover { background: var(--finder-gold-lt); }
+    .btn-near-me:active { transform: scale(.97); }
+    .btn-near-me.loading { opacity: .72; pointer-events: none; }
+    .btn-near-me svg { width: 16px; height: 16px; }
+    .btn-near-me .btn-label { display: inline; }
+    @keyframes spin-icon { to { transform: rotate(360deg); } }
+    .spin { animation: spin-icon .75s linear infinite; }
+    @media (max-width: 700px) { .btn-near-me .btn-label { display: none; } .btn-near-me { padding: 0 14px; } }
+    @media (max-width: 400px) { .btn-near-me { padding: 0 12px; } }
+
+    /* ─── Province chips ─── */
+    .province-bar {
+      position: absolute; top: 74px; left: 50%; transform: translateX(-50%);
+      z-index: 50; display: flex; gap: 7px;
+      width: min(560px, calc(100% - 28px));
+      overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px;
+    }
+    .province-bar::-webkit-scrollbar { display: none; }
+    @media (max-width: 700px) { .province-bar { top: 72px; } }
+    .chip {
+      height: 32px; padding: 0 14px; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: .74rem; font-weight: 500;
+      border: 1.5px solid rgba(255,255,255,.55); background: rgba(255,255,255,.88);
+      color: var(--finder-charcoal); cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: all var(--finder-transition); backdrop-filter: blur(8px);
+      -webkit-tap-highlight-color: transparent; box-shadow: var(--finder-shadow-sm);
+    }
+    .chip:hover { background: white; border-color: var(--finder-gold); }
+    .chip.active {
+      background: var(--finder-forest); color: white;
+      border-color: var(--finder-forest); box-shadow: 0 2px 10px rgba(45,90,61,.4);
+    }
+
+    /* ─── Map badge ─── */
+    .map-badge {
+      position: absolute; bottom: 14px; left: 14px; z-index: 50;
+      background: white; border-radius: var(--finder-radius-sm); padding: 6px 12px;
+      font-size: .74rem; color: var(--finder-mid-grey);
+      box-shadow: var(--finder-shadow-sm); display: flex; align-items: center; gap: 6px;
+      pointer-events: none;
+    }
+    .map-badge strong { color: var(--finder-forest); font-weight: 600; }
+    .map-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--finder-sage); flex-shrink: 0; }
+
+    /* ─── Tray ─── */
+    .tray {
+      flex-shrink: 0; background: white;
+      border-top: 1px solid var(--finder-light-grey);
+      display: flex; flex-direction: column;
+      position: relative; z-index: 10;
+      box-shadow: 0 -4px 24px rgba(0,0,0,.09); height: 260px;
+    }
+    .tray-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 18px 8px; border-bottom: 1px solid var(--finder-light-grey); flex-shrink: 0;
+    }
+    .tray-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600;
+      color: var(--finder-forest); letter-spacing: .01em;
+    }
+    .sort-row { display: flex; align-items: center; gap: 6px; }
+    .sort-label { font-size: .72rem; color: var(--finder-mid-grey); }
+    .sort-select {
+      padding: 4px 8px; border: 1px solid var(--finder-light-grey);
+      border-radius: var(--finder-radius-sm); font-family: 'DM Sans', sans-serif;
+      font-size: .72rem; color: var(--finder-charcoal); background: var(--finder-warm-white);
+      cursor: pointer; outline: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%23707070'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 6px center; padding-right: 22px;
+    }
+
+    /* ─── Card scroll ─── */
+    .card-scroll {
+      flex: 1; overflow-x: auto; overflow-y: hidden;
+      display: flex; align-items: stretch; gap: 12px; padding: 12px 18px 14px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin; scrollbar-color: var(--finder-light-grey) transparent;
+    }
+    .card-scroll::-webkit-scrollbar { height: 4px; }
+    .card-scroll::-webkit-scrollbar-track { background: transparent; }
+    .card-scroll::-webkit-scrollbar-thumb { background: var(--finder-light-grey); border-radius: 4px; }
+
+    /* ─── Practitioner card ─── */
+    .prac-card {
+      flex-shrink: 0; width: 200px;
+      background: var(--finder-warm-white); border: 1.5px solid var(--finder-light-grey);
+      border-radius: var(--finder-radius-md); padding: 12px; cursor: pointer;
+      scroll-snap-align: start;
+      transition: border-color var(--finder-transition), box-shadow var(--finder-transition), transform var(--finder-transition);
+      display: flex; flex-direction: column; gap: 8px;
+      position: relative; -webkit-tap-highlight-color: transparent; user-select: none;
+    }
+    .prac-card:hover { border-color: var(--finder-sage); box-shadow: var(--finder-shadow-md); transform: translateY(-2px); }
+    .prac-card.active {
+      border-color: var(--finder-forest); background: var(--finder-sage-bg);
+      box-shadow: 0 4px 20px rgba(45,90,61,.18);
+    }
+    .prac-card.active::before {
+      content: ''; position: absolute; top: -1.5px; left: 50%; transform: translateX(-50%);
+      width: 32px; height: 3px; background: var(--finder-forest); border-radius: 0 0 4px 4px;
+    }
+    .card-top { display: flex; align-items: flex-start; gap: 10px; }
+    .card-avatar {
+      width: 50px; height: 50px; border-radius: 10px; object-fit: cover;
+      flex-shrink: 0; border: 1.5px solid var(--finder-light-grey); background: var(--finder-sage-pale);
+    }
+    .card-avatar-ph {
+      width: 50px; height: 50px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--finder-sage-pale), #d5ece0);
+      flex-shrink: 0; border: 1.5px solid var(--finder-light-grey);
+      display: grid; place-items: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--finder-forest);
+    }
+    .card-meta { flex: 1; min-width: 0; }
+    .card-name {
+      font-family: 'Cormorant Garamond', serif; font-size: .98rem; font-weight: 600;
+      color: var(--finder-forest); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;
+    }
+    .card-city { font-size: .72rem; color: var(--finder-mid-grey); display: flex; align-items: center; gap: 3px; margin-top: 2px; }
+    .card-city svg { width: 9px; height: 9px; flex-shrink: 0; }
+    .card-dist {
+      font-size: .68rem; font-weight: 500; background: var(--finder-gold-pale); color: var(--finder-gold);
+      padding: 2px 7px; border-radius: 20px; margin-top: 3px; display: inline-flex; align-items: center; gap: 3px;
+    }
+    .card-phone { font-size: .74rem; color: var(--finder-forest-mid, #3a7050); font-weight: 500; display: flex; align-items: center; gap: 5px; }
+    .card-phone svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .card-view-btn {
+      width: 100%; padding: 7px; background: var(--finder-forest); color: white;
+      border: none; border-radius: var(--finder-radius-sm); font-family: 'DM Sans', sans-serif;
+      font-size: .76rem; font-weight: 500; cursor: pointer;
+      transition: background var(--finder-transition); -webkit-tap-highlight-color: transparent;
+    }
+    .card-view-btn:hover { background: var(--finder-forest-mid, #3a7050); }
+
+    /* ─── Empty state ─── */
+    .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--finder-mid-grey); padding: 20px; text-align: center; }
+    .empty-state svg { opacity: .3; }
+    .empty-state p { font-size: .85rem; }
+
+    /* ─── Detail sheet (fixed overlay, above original nav z-index:100) ─── */
+    .sheet-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      z-index: 600; opacity: 0; pointer-events: none;
+      transition: opacity .3s; backdrop-filter: blur(2px);
+    }
+    .sheet-overlay.open { opacity: 1; pointer-events: all; }
+    .detail-sheet {
+      position: fixed; bottom: 0; left: 50%;
+      transform: translateX(-50%) translateY(102%);
+      width: min(520px, 100vw); max-height: 88dvh; max-height: 88vh;
+      background: white; border-radius: var(--finder-radius-lg) var(--finder-radius-lg) 0 0;
+      z-index: 700; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      transition: transform .38s cubic-bezier(0.32, 0, 0.15, 1);
+      box-shadow: 0 -8px 48px rgba(0,0,0,.22);
+    }
+    .detail-sheet.open { transform: translateX(-50%) translateY(0); }
+    .sheet-handle-bar {
+      display: flex; justify-content: center; padding: 12px 0 4px;
+      position: sticky; top: 0; background: white; z-index: 2;
+    }
+    .sheet-handle { width: 42px; height: 4px; background: var(--finder-light-grey); border-radius: 4px; }
+    .sheet-close {
+      position: absolute; top: 10px; right: 14px; width: 30px; height: 30px;
+      border-radius: 50%; border: none; background: var(--finder-cream); cursor: pointer;
+      display: grid; place-items: center; font-size: .85rem; color: var(--finder-mid-grey);
+      transition: background var(--finder-transition); -webkit-tap-highlight-color: transparent;
+    }
+    .sheet-close:hover { background: var(--finder-light-grey); }
+    .sheet-hero { width: 100%; height: 210px; position: relative; overflow: hidden; background: var(--finder-sage-pale); }
+    .sheet-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .sheet-hero-ph { width: 100%; height: 100%; display: grid; place-items: center; background: linear-gradient(135deg, #b8d4c2 0%, #d8ede0 100%); font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 600; color: var(--finder-forest); opacity: .6; }
+    .sheet-hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,55,35,.75) 0%, transparent 55%); pointer-events: none; }
+    .sheet-hero-name { position: absolute; bottom: 16px; left: 20px; font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: white; text-shadow: 0 2px 10px rgba(0,0,0,.4); pointer-events: none; line-height: 1.1; }
+    .sheet-hero-badge { position: absolute; top: 14px; left: 14px; background: rgba(45,90,61,.85); color: white; font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 4px; }
+    .sheet-body { padding: 20px 22px 32px; }
+    .info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: .9rem; color: var(--finder-body-text); }
+    .info-row .icon-wrap { width: 32px; height: 32px; background: var(--finder-sage-bg); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
+    .info-row .icon-wrap svg { width: 16px; height: 16px; color: var(--finder-forest); }
+    .info-row .info-content { flex: 1; padding-top: 6px; }
+    .info-row a { color: var(--finder-forest); text-decoration: none; font-weight: 500; }
+    .info-row a:hover { text-decoration: underline; }
+    .info-label { font-size: .66rem; font-weight: 600; color: var(--finder-mid-grey); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 1px; }
+    .bio-box { background: var(--finder-cream); border-left: 3px solid var(--finder-sage); border-radius: 0 var(--finder-radius-sm) var(--finder-radius-sm) 0; padding: 12px 14px; margin: 14px 0; font-size: .85rem; color: var(--finder-mid-grey); line-height: 1.7; font-style: italic; }
+    .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .action-wa, .action-call { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border: none; border-radius: var(--finder-radius-md); font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity var(--finder-transition), transform .1s; -webkit-tap-highlight-color: transparent; }
+    .action-wa { background: var(--finder-wa-green); color: white; }
+    .action-call { background: var(--finder-forest); color: white; }
+    .action-wa:hover, .action-call:hover { opacity: .88; }
+    .action-wa:active, .action-call:active { transform: scale(.97); }
+    .action-wa svg, .action-call svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .action-fb { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: #1877F2; color: white; border: none; border-radius: var(--finder-radius-md); font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity var(--finder-transition); margin-top: 10px; width: 100%; -webkit-tap-highlight-color: transparent; }
+    .action-fb:hover { opacity: .88; }
+
+    /* ─── Location banner ─── */
+    .loc-banner { display: none; position: absolute; bottom: 274px; left: 50%; transform: translateX(-50%); z-index: 500; width: min(460px, calc(100vw - 28px)); background: var(--finder-forest); color: white; border-radius: var(--finder-radius-md); padding: 14px 16px; gap: 12px; align-items: center; box-shadow: var(--finder-shadow-lg); animation: slideUp .3s ease; }
+    .loc-banner.show { display: flex; }
+    @keyframes slideUp { from { opacity:0; transform: translateX(-50%) translateY(10px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
+    .loc-banner-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .loc-banner-text { flex: 1; line-height: 1.45; font-size: .83rem; }
+    .loc-banner-text strong { display: block; margin-bottom: 1px; }
+    .loc-btns { display: flex; gap: 7px; flex-shrink: 0; }
+    .btn-allow { padding: 7px 16px; border-radius: 20px; border: none; background: var(--finder-gold); color: white; font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .btn-later { padding: 7px 12px; border-radius: 20px; border: 1.5px solid rgba(255,255,255,.3); background: transparent; color: rgba(255,255,255,.8); font-family: 'DM Sans', sans-serif; font-size: .78rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+    /* ─── Toast ─── */
+    .finder-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--finder-charcoal); color: white; padding: 11px 22px; border-radius: 28px; font-size: .82rem; z-index: 9999; transition: transform .28s cubic-bezier(0.34, 1.3, 0.64, 1); pointer-events: none; max-width: calc(100vw - 28px); text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,.25); white-space: nowrap; }
+    .finder-toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ─── Leaflet popup overrides ─── */
+    .leaflet-popup-content-wrapper { border-radius: 14px !important; box-shadow: var(--finder-shadow-md) !important; border: none !important; padding: 0 !important; }
+    .leaflet-popup-content { margin: 0 !important; padding: 0 !important; min-width: 180px; }
+    .leaflet-popup-tip-container { margin-top: -1px; }
+    .map-pop { padding: 13px 15px; font-family: 'DM Sans', sans-serif; }
+    .map-pop-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--finder-forest); margin-bottom: 3px; }
+    .map-pop-city { font-size: .74rem; color: var(--finder-mid-grey); margin-bottom: 10px; }
+    .map-pop-btn { display: block; width: 100%; text-align: center; padding: 8px; background: var(--finder-forest); color: white; border: none; border-radius: 8px; font-size: .78rem; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background var(--finder-transition); }
+    .map-pop-btn:hover { background: var(--finder-forest-mid, #3a7050); }
+    </style>
+    <!-- ═══ end PRACTITIONER FINDER dependencies ═══ -->
 </head>
 <body>
 
@@ -632,7 +1005,7 @@
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Contact</a></li>
-        </ul>
+            <li><a href="#finder">Find a Practitioner</a></li>
 
         <div class="nav-cta">
             <a href="tel:0615158052" class="btn btn-outline nav-phone" aria-label="Call us on 061 515 8052">
@@ -665,6 +1038,7 @@
     <a href="#pricing" onclick="closeMobile()">Pricing</a>
     <a href="#faq" onclick="closeMobile()">FAQ</a>
     <a href="#contact" onclick="closeMobile()">Contact</a>
+    <a href="#finder" onclick="closeMobile()">Find a Practitioner</a>
     <a href="tel:0615158052"><i class="fa-solid fa-phone" aria-hidden="true"></i> &nbsp;061 515 8052</a>
 </div>
 
@@ -980,6 +1354,130 @@
         </div>
     </div>
 </section>
+<!-- ═══════════════════════════════════════════════════════════════
+     PRACTITIONER FINDER SECTION
+     "If I'm not close to you, try my professional Body Alignment practitioner colleagues"
+     Inserted after Contact, before </main> — original site unchanged above
+═══════════════════════════════════════════════════════════════ -->
+
+<!-- Finder toast notification -->
+<div class="finder-toast" id="finderToast"></div>
+
+<!-- Finder detail sheet overlay -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+
+<!-- Finder detail sheet -->
+<div class="detail-sheet" id="detailSheet">
+  <div class="sheet-handle-bar">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="closeSheet()" aria-label="Close">✕</button>
+  </div>
+  <div class="sheet-hero" id="sheetHero">
+    <div class="sheet-hero-gradient"></div>
+    <div class="sheet-hero-badge">
+      <svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      Certified Practitioner
+    </div>
+    <div class="sheet-hero-name" id="sheetName"></div>
+  </div>
+  <div class="sheet-body">
+    <div class="info-row">
+      <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+      <div class="info-content"><div class="info-label">Location</div><div id="sheetLocation"></div></div>
+    </div>
+    <div class="info-row">
+      <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+      <div class="info-content"><div class="info-label">Phone</div><a id="sheetPhone" href="#">—</a></div>
+    </div>
+    <div class="info-row" id="sheetEmailRow">
+      <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+      <div class="info-content"><div class="info-label">Email</div><a id="sheetEmail" href="#">—</a></div>
+    </div>
+    <div class="info-row" id="sheetDistRow" style="display:none">
+      <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.49 5.48c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2 4c-2.33 0-7 1.17-7 3.5V15h14v-2c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+      <div class="info-content"><div class="info-label">Distance</div><div id="sheetDist" style="font-weight:500;color:#3a7050"></div></div>
+    </div>
+    <div class="bio-box" id="sheetBio"></div>
+    <div class="sheet-actions">
+      <a class="action-wa" id="sheetWA" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
+        WhatsApp
+      </a>
+      <a class="action-call" id="sheetCall" href="#">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        Call Now
+      </a>
+    </div>
+    <a class="action-fb" id="sheetFB" href="#" target="_blank" rel="noopener" style="display:none">
+      <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook Page
+    </a>
+  </div>
+</div>
+
+<!-- PRACTITIONER FINDER -->
+<section id="finder" class="finder-section" aria-labelledby="finder-heading">
+  <div class="finder-intro-block">
+    <p class="section-tag">National Network</p>
+    <h2 id="finder-heading">If I'm not close to you, try my professional Body Alignment <em>practitioner colleagues</em></h2>
+    <div class="finder-divider-line"></div>
+    <p>All practitioners below are fully certified through the official Body Alignment training programme. Use the interactive map to find someone near you — tap any pin to see their real photo, contact details, and connect via WhatsApp directly.</p>
+  </div>
+  <div class="finder-widget" id="finderWidget">
+    <div class="app" id="finderApp">
+      <header class="app-header" style="display:none"></header>
+      <div class="map-region">
+        <div id="finderMap"></div>
+        <div class="map-search">
+          <div class="search-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="searchInput" placeholder="Search by city, province or name…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+            <button class="clear-btn" onclick="clearSearch()" aria-label="Clear">✕</button>
+          </div>
+          <button class="btn-near-me" id="btnNearMe" onclick="locateMe()">
+            <svg id="locIcon" viewBox="0 0 24 24" fill="white"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z"/></svg>
+            <span class="btn-label">Near Me</span>
+          </button>
+        </div>
+        <div class="province-bar" id="provinceBar">
+          <button class="chip active" onclick="filterProvince('All',this)">All</button>
+          <button class="chip" onclick="filterProvince('Western Cape',this)">Western Cape</button>
+          <button class="chip" onclick="filterProvince('Australia',this)">Australia</button>
+        </div>
+        <div class="map-badge">
+          <div class="map-badge-dot"></div>
+          <strong id="countNum">24</strong>&nbsp;practitioners
+        </div>
+        <div class="loc-banner" id="locBanner">
+          <div class="loc-banner-icon">📍</div>
+          <div class="loc-banner-text">
+            <strong>Find the nearest practitioner</strong>
+            Allow location access for instant results
+          </div>
+          <div class="loc-btns">
+            <button class="btn-allow" onclick="locateMe();dismissBanner()">Allow</button>
+            <button class="btn-later" onclick="dismissBanner()">Later</button>
+          </div>
+        </div>
+      </div>
+      <div class="tray">
+        <div class="tray-header">
+          <div class="tray-title" id="trayTitle">All Practitioners</div>
+          <div class="sort-row">
+            <span class="sort-label">Sort:</span>
+            <select class="sort-select" onchange="sortBy(this.value)">
+              <option value="province">Province</option>
+              <option value="name">Name A–Z</option>
+              <option value="distance">Distance</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-scroll" id="cardScroll"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══ end PRACTITIONER FINDER ═══ -->
 
 </main>
 
@@ -1113,6 +1611,299 @@
     document.querySelectorAll('.pricing-cta').forEach(el => {
         el.addEventListener('click', () => gaEvent('pricing_cta_click', { event_category: 'Pricing', event_label: el.closest('.pricing-card')?.querySelector('.pricing-name')?.textContent || 'Pricing' }));
     });
+
+/* ══════════════════════════════════════════════════
+   PRACTITIONER FINDER — DATA, MAP, JS
+   All original site code above is unchanged.
+   Only additions below.
+══════════════════════════════════════════════════ */
+const DATA = [
+  {id:1,name:"Janet Yates",city:"Somerset West",province:"Western Cape",phone:"082 686 8291",email:"janet.bodyalignment@gmail.com",bio:"Founder & Owner of Body Alignment. Practitioner and Trainer. Developed the Body Alignment modality in 2013, combining physical and emotional techniques. Opens her practice in Somerset West in 2004 after training in DPPT.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/38.png",facebook:"https://www.facebook.com/janet.yates.796",lat:-34.0834,lng:18.8456},
+  {id:2,name:"Shantelle Visser",city:"Somerset West / Stellenbosch / Tokai",province:"Western Cape",phone:"082 443 6041",email:"",bio:"Certified Body Alignment practitioner serving Somerset West, Stellenbosch and Tokai. Helping clients find relief from pain and tension through holistic body alignment.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/2-1.png",facebook:"https://www.facebook.com/BodyAlignmentbyShantelle",lat:-34.0510,lng:18.8430},
+  {id:3,name:"Chantelle Bannister",city:"Somerset West",province:"Western Cape",phone:"079 093 5012",email:"",bio:"Certified Body Alignment practitioner based in Somerset West, dedicated to helping clients restore balance and ease chronic pain.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/5-1.png",facebook:"https://www.facebook.com/profile.php?id=61575677325917",lat:-34.0700,lng:18.8500},
+  {id:4,name:"Lize Kroese",city:"Somerset West",province:"Western Cape",phone:"061 340 8928",email:"",bio:"Certified Body Alignment practitioner in Somerset West, passionate about whole-body alignment and helping clients live pain-free.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/28.png",facebook:"",lat:-34.0620,lng:18.8610},
+  {id:5,name:"Ilse Steenkamp",city:"Helderberg / Strand",province:"Western Cape",phone:"082 926 3414",email:"",bio:"Certified Body Alignment practitioner serving the Helderberg and Strand areas. Highly skilled in helping clients with chronic back issues and postural correction.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/13.png",facebook:"",lat:-34.1100,lng:18.8440},
+  {id:6,name:"Elmarie Henegan",city:"Strand",province:"Western Cape",phone:"084 627 8002",email:"",bio:"Certified Body Alignment practitioner based in Strand, helping clients release deep muscle tension and restore spinal alignment.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/20.png",facebook:"https://www.facebook.com/profile.php?id=61560329326901",lat:-34.1200,lng:18.8250},
+  {id:7,name:"Antoinette Retief",city:"Strand",province:"Western Cape",phone:"068 154 1906",email:"",bio:"Certified Body Alignment practitioner in Strand, dedicated to restoring whole-body balance and relieving chronic pain.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/15-1.png",facebook:"",lat:-34.1150,lng:18.8310},
+  {id:8,name:"Charnè McQuire",city:"Malmesbury",province:"Western Cape",phone:"063 104 8542",email:"charne@bodyalignmentmalmesbury.co.za",bio:"Certified Body Alignment practitioner serving the Swartland region from Malmesbury. Passionate about holistic health and whole-body pain relief.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/32.png",facebook:"",lat:-33.4607,lng:18.7281},
+  {id:9,name:"Jeanne Mitchell",city:"Wellington / Paarl",province:"Western Cape",phone:"083 298 8533",email:"",bio:"Certified Body Alignment practitioner based in Wellington, also serving Paarl as a mobile practitioner throughout the Boland.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/17.png",facebook:"https://www.facebook.com/p/body-alignment-wellington-100094044054949/",lat:-33.6440,lng:19.0130},
+  {id:10,name:"Natasja Warnick",city:"Darling / Mamre",province:"Western Cape",phone:"082 730 0668",email:"",bio:"Certified Body Alignment practitioner serving Darling and Mamre, bringing holistic pain relief to the West Coast communities.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/34.png",facebook:"https://www.facebook.com/NTDancefitness",lat:-33.3760,lng:18.3860},
+  {id:11,name:"Chris-Fick Van Niekerk",city:"Bergrivier",province:"Western Cape",phone:"068 641 3097",email:"",bio:"Certified Body Alignment practitioner serving the Bergrivier area on the West Coast.",photo:"https://bodyalignment.co.za/wp-content/uploads/2025/05/Chris-Fick.png",facebook:"",lat:-32.7500,lng:18.9600},
+  {id:12,name:"Mari du Toit",city:"Hermanus",province:"Western Cape",phone:"067 692 5512",email:"",bio:"Newest member of the Body Alignment team! Certified practitioner serving Hermanus and the Overberg region.",photo:"https://bodyalignment.co.za/wp-content/uploads/2026/01/BASA-Profile-Picture-3.png",facebook:"",lat:-34.4212,lng:19.2350},
+  {id:13,name:"Logan Fitzgibbon",city:"Gansbaai",province:"Western Cape",phone:"065 898 2197",email:"",bio:"Certified Body Alignment practitioner based in Gansbaai, serving the Overberg coastline and surrounding areas.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/29.png",facebook:"https://www.facebook.com/profile.php?id=100090450193126",lat:-34.5820,lng:19.3470},
+  {id:14,name:"Julie Hellqvist",city:"Sandbaai",province:"Western Cape",phone:"082 561 7173",email:"",bio:"Certified Body Alignment practitioner serving Sandbaai and the greater Hermanus area on the beautiful Overberg coast.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/26.png",facebook:"",lat:-34.4050,lng:19.2100},
+  {id:15,name:"Bahia Abrahams",city:"Rondebosch East / Crawford",province:"Western Cape",phone:"084 706 9527",email:"",bio:"Certified Body Alignment practitioner serving Rondebosch East and Crawford in the Southern Suburbs of Cape Town.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/23.png",facebook:"https://www.facebook.com/candice.m.williams.71",lat:-33.9670,lng:18.4980},
+  {id:16,name:"Jackie Young",city:"Pinelands / Obs / CBD",province:"Western Cape",phone:"083 563 4403",email:"",bio:"Mobile Body Alignment practitioner serving Pinelands, Observatory and the Cape Town CBD.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/12/3.png",facebook:"",lat:-33.9380,lng:18.4870},
+  {id:17,name:"Caryl Desiree",city:"Durbanville",province:"Western Cape",phone:"071 444 7876",email:"",bio:"Certified Body Alignment practitioner based in Durbanville, serving the Northern Suburbs of Cape Town.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/8-1.png",facebook:"",lat:-33.8310,lng:18.6450},
+  {id:18,name:"Masnoena Masters",city:"Brackenfell / Durbanville",province:"Western Cape",phone:"082 951 8186",email:"",bio:"Certified Body Alignment practitioner serving Brackenfell and Durbanville in Cape Town's Northern Suburbs.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/31.png",facebook:"https://www.facebook.com/share/p/KrXaZvpFBj9RWEcJ/",lat:-33.8650,lng:18.6900},
+  {id:19,name:"Rudolph Maree",city:"Brackenfell / Durbanville",province:"Western Cape",phone:"082 344 5190",email:"",bio:"Certified Body Alignment practitioner in Brackenfell and Durbanville, helping clients restore whole-body balance.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/25.png",facebook:"",lat:-33.8700,lng:18.6960},
+  {id:20,name:"Nuran Mukaddam Kootbodien",city:"Parow East",province:"Western Cape",phone:"083 532 5583",email:"",bio:"Certified Body Alignment practitioner based in Parow East, serving the Cape Flats and Northern Suburbs.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/19.png",facebook:"",lat:-33.9050,lng:18.6130},
+  {id:21,name:"Natalie Mantsi",city:"Kuilsriver",province:"Western Cape",phone:"083 285 4179",email:"",bio:"Certified Body Alignment practitioner serving Kuilsriver and the Eastern Suburbs of Cape Town.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/22.png",facebook:"",lat:-33.9340,lng:18.6830},
+  {id:22,name:"Mohamed Masnavi Haji Mohamed",city:"Mitchell's Plain",province:"Western Cape",phone:"084 243 1633",email:"",bio:"Certified Body Alignment practitioner serving Mitchell's Plain and the Cape Flats communities.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/10.png",facebook:"",lat:-34.0450,lng:18.6220},
+  {id:23,name:"Fatima Noor Chand",city:"Constantia",province:"Western Cape",phone:"079 024 4603",email:"",bio:"Certified Body Alignment practitioner based in Constantia, serving the Southern Suburbs of Cape Town.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/37-1.png",facebook:"https://www.facebook.com/profile.php?id=61556229269593",lat:-34.0310,lng:18.4330},
+  {id:24,name:"Ashley Du Plooy",city:"Byford, Western Australia",province:"Australia",phone:"+61 491 705 090",email:"",bio:"Certified Body Alignment practitioner now based in Byford, Western Australia — bringing the South African modality to Australian clients.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/35.png",facebook:"",lat:-32.2270,lng:116.0120}
+];
+
+let finderMap, finderMarkers = {}, finderUserMarker = null, finderUserLatLng = null;
+let finderVisible = [...DATA], finderProvince = 'All', finderActiveId = null, finderBannerShown = false;
+
+/* Lazy-init: only start Leaflet when finder scrolls into view */
+let finderMapInited = false;
+const finderObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !finderMapInited) {
+        finderMapInited = true;
+        finderInitMap();
+        finderObserver.disconnect();
+        if ('ontouchstart' in window && navigator.geolocation) {
+            setTimeout(() => { if (!finderBannerShown) document.getElementById('locBanner').classList.add('show'); }, 2000);
+        }
+    }
+}, { threshold: 0.1 });
+finderObserver.observe(document.getElementById('finder'));
+
+/* Wire search after DOM ready (DOMContentLoaded already fired, use direct assignment) */
+(function() {
+    const inp = document.getElementById('searchInput');
+    if (inp) {
+        inp.addEventListener('input', finderDebounce(liveSearch, 280));
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') liveSearch(); });
+    }
+})();
+
+function finderInitMap() {
+    finderMap = L.map('finderMap', { center: [-33.9, 18.6], zoom: 9, zoomControl: false, tap: true, tapTolerance: 15 });
+    L.control.zoom({ position: 'bottomright' }).addTo(finderMap);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+        maxZoom: 19, detectRetina: true
+    }).addTo(finderMap);
+    renderAll();
+}
+
+function mkIcon(active, nearest) {
+    const bg = active ? '#b8955a' : nearest ? '#4e8f65' : '#2d5a3d';
+    const scale = active ? 1.15 : 1;
+    return L.divIcon({
+        className: '',
+        html: `<svg width="${Math.round(30*scale)}" height="${Math.round(40*scale)}" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 3px 5px rgba(0,0,0,.3));display:block;"><path d="M15 0C9.477 0 5 4.477 5 10c0 8.5 10 30 10 30S25 18.5 25 10C25 4.477 20.523 0 15 0z" fill="${bg}" stroke="white" stroke-width="1.5"/><circle cx="15" cy="10" r="4.5" fill="white" opacity=".9"/></svg>`,
+        iconSize: [Math.round(30*scale), Math.round(40*scale)],
+        iconAnchor: [Math.round(15*scale), Math.round(40*scale)],
+        popupAnchor: [0, -Math.round(42*scale)]
+    });
+}
+
+function renderAll() {
+    Object.values(finderMarkers).forEach(m => finderMap.removeLayer(m));
+    finderMarkers = {};
+    const scroll = document.getElementById('cardScroll');
+    scroll.innerHTML = '';
+
+    if (!finderVisible.length) {
+        scroll.innerHTML = `<div class="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>No practitioners found.<br>Try a different search or province.</p></div>`;
+        document.getElementById('countNum').textContent = 0;
+        return;
+    }
+
+    finderVisible.forEach((p, i) => {
+        const isNearest = finderUserLatLng && i === 0;
+        const m = L.marker([p.lat, p.lng], { icon: mkIcon(false, isNearest) }).addTo(finderMap);
+        m.on('click', () => selectPractitioner(p.id));
+        m.bindPopup(`<div class="map-pop"><div class="map-pop-name">${p.name}</div><div class="map-pop-city">📍 ${p.city}, ${p.province}</div><button class="map-pop-btn" onclick="selectPractitioner(${p.id})">View Details</button></div>`, { maxWidth: 200, closeButton: false });
+        finderMarkers[p.id] = m;
+
+        const dist = finderUserLatLng ? haversine(finderUserLatLng[0], finderUserLatLng[1], p.lat, p.lng).toFixed(0) : null;
+        const card = document.createElement('div');
+        card.className = 'prac-card' + (p.id === finderActiveId ? ' active' : '');
+        card.id = 'card-' + p.id;
+        card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', 'View ' + p.name);
+        card.onclick = () => selectPractitioner(p.id);
+        card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') selectPractitioner(p.id); };
+
+        const av = buildAvatar(p, 'card-avatar');
+        card.appendChild(av);
+
+        const meta = document.createElement('div'); meta.className = 'card-meta';
+        meta.innerHTML = `<div class="card-name">${p.name}</div><div class="card-city"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>${p.city}</div>${dist ? `<div class="card-dist">🧭 ${dist} km</div>` : ''}`;
+        card.appendChild(meta);
+
+        const ph = document.createElement('div'); ph.className = 'card-phone';
+        ph.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>${p.phone}`;
+        card.appendChild(ph);
+
+        const vb = document.createElement('button'); vb.className = 'card-view-btn'; vb.textContent = 'View & Contact';
+        vb.onclick = e => { e.stopPropagation(); selectPractitioner(p.id); openSheet(p); };
+        card.appendChild(vb);
+        scroll.appendChild(card);
+    });
+
+    document.getElementById('countNum').textContent = finderVisible.length;
+    const tt = document.getElementById('trayTitle');
+    tt.textContent = finderProvince === 'All' ? (finderUserLatLng ? 'Nearest Practitioners' : 'All Practitioners') : finderProvince;
+}
+
+function selectPractitioner(id) {
+    finderActiveId = id;
+    Object.entries(finderMarkers).forEach(([mid, m]) => {
+        const idx = finderVisible.findIndex(p => p.id === Number(mid));
+        m.setIcon(mkIcon(Number(mid) === id, finderUserLatLng && idx === 0));
+    });
+    document.querySelectorAll('.prac-card').forEach(c => c.classList.remove('active'));
+    const card = document.getElementById('card-' + id);
+    if (card) { card.classList.add('active'); card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+    const p = DATA.find(x => x.id === id);
+    if (!p) return;
+    finderMap.flyTo([p.lat, p.lng], 13, { duration: 1.1, easeLinearity: 0.3 });
+    setTimeout(() => { if (finderMarkers[id]) finderMarkers[id].openPopup(); }, 800);
+    openSheet(p);
+}
+
+function openSheet(p) {
+    const hero = document.getElementById('sheetHero');
+    const existing = hero.querySelector('img, .sheet-hero-ph');
+    if (existing) existing.remove();
+    const img = buildAvatar(p, 'sheet-hero-img');
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;';
+    hero.insertBefore(img, hero.firstChild);
+
+    document.getElementById('sheetName').textContent = p.name;
+    document.getElementById('sheetLocation').textContent = p.city + ', ' + p.province;
+    document.getElementById('sheetBio').textContent = p.bio || '';
+
+    const clean = p.phone.replace(/[\s\-()]/g, '');
+    document.getElementById('sheetPhone').textContent = p.phone;
+    document.getElementById('sheetPhone').href = 'tel:' + clean;
+    document.getElementById('sheetCall').href = 'tel:' + clean;
+
+    const wa = clean.startsWith('+') ? clean.slice(1) : '27' + clean.replace(/^0/, '');
+    document.getElementById('sheetWA').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found you on the Body Alignment Practitioner Finder and would like to book a session.');
+
+    if (p.email) {
+        document.getElementById('sheetEmail').textContent = p.email;
+        document.getElementById('sheetEmail').href = 'mailto:' + p.email;
+        document.getElementById('sheetEmailRow').style.display = 'flex';
+    } else {
+        document.getElementById('sheetEmailRow').style.display = 'none';
+    }
+
+    if (finderUserLatLng) {
+        document.getElementById('sheetDist').textContent = haversine(finderUserLatLng[0], finderUserLatLng[1], p.lat, p.lng).toFixed(1) + ' km from your location';
+        document.getElementById('sheetDistRow').style.display = 'flex';
+    } else {
+        document.getElementById('sheetDistRow').style.display = 'none';
+    }
+
+    const fbEl = document.getElementById('sheetFB');
+    if (p.facebook) { fbEl.href = p.facebook; fbEl.style.display = 'flex'; } else { fbEl.style.display = 'none'; }
+
+    document.getElementById('sheetOverlay').classList.add('open');
+    document.getElementById('detailSheet').classList.add('open');
+}
+
+function closeSheet() {
+    document.getElementById('sheetOverlay').classList.remove('open');
+    document.getElementById('detailSheet').classList.remove('open');
+}
+
+function buildAvatar(p, cls) {
+    const img = document.createElement('img');
+    img.className = cls; img.alt = p.name; img.loading = 'lazy'; img.src = p.photo || '';
+    img.onerror = function () {
+        const ph = document.createElement('div');
+        ph.className = cls.includes('hero') ? 'sheet-hero-ph' : 'card-avatar-ph';
+        ph.textContent = p.name.charAt(0).toUpperCase();
+        if (this.parentNode) this.parentNode.replaceChild(ph, this);
+    };
+    return img;
+}
+
+function locateMe() {
+    if (!navigator.geolocation) { finderToast('Location not supported by this browser'); return; }
+    dismissBanner();
+    const btn = document.getElementById('btnNearMe');
+    const ico = document.getElementById('locIcon');
+    btn.classList.add('loading'); ico.classList.add('spin');
+    ico.innerHTML = '<path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>';
+    finderToast('🔍 Finding your location…');
+    const reset = () => {
+        btn.classList.remove('loading'); ico.classList.remove('spin');
+        ico.innerHTML = '<path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z"/>';
+    };
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            reset(); finderUserLatLng = [pos.coords.latitude, pos.coords.longitude];
+            if (finderUserMarker) finderMap.removeLayer(finderUserMarker);
+            finderUserMarker = L.circleMarker(finderUserLatLng, { radius: 10, fillColor: '#b8955a', color: 'white', weight: 3, opacity: 1, fillOpacity: .92, zIndexOffset: 500 })
+                .addTo(finderMap).bindPopup('<div style="padding:8px;font-family:\'DM Sans\',sans-serif;font-weight:600;font-size:.8rem;color:#2d5a3d">📍 Your Location</div>', { closeButton: false }).openPopup();
+            finderVisible = finderApplyFilter().sort((a, b) => haversine(...finderUserLatLng, a.lat, a.lng) - haversine(...finderUserLatLng, b.lat, b.lng));
+            renderAll(); finderMap.flyTo(finderUserLatLng, 9, { duration: 1.4 });
+            const near = finderVisible[0];
+            finderToast('✅ Nearest: ' + near.name + ' — ' + haversine(...finderUserLatLng, near.lat, near.lng).toFixed(0) + ' km');
+            setTimeout(() => selectPractitioner(near.id), 1800);
+        },
+        err => {
+            reset();
+            const msgs = { 1: '⚠️ Location denied — check browser settings', 2: '⚠️ Location unavailable', 3: '⚠️ Location timed out' };
+            finderToast(msgs[err.code] || 'Could not get location');
+        },
+        { enableHighAccuracy: true, timeout: 14000, maximumAge: 60000 }
+    );
+}
+
+function liveSearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!q) { finderVisible = finderApplyFilter(); if (finderUserLatLng) finderVisible.sort((a,b) => haversine(...finderUserLatLng,a.lat,a.lng) - haversine(...finderUserLatLng,b.lat,b.lng)); renderAll(); return; }
+    finderVisible = DATA.filter(p => p.name.toLowerCase().includes(q) || p.city.toLowerCase().includes(q) || p.province.toLowerCase().includes(q));
+    renderAll();
+    if (!finderVisible.length) { finderToast('No practitioners found — try a different term'); return; }
+    if (finderVisible.length === 1) { setTimeout(() => selectPractitioner(finderVisible[0].id), 300); return; }
+    finderMap.flyToBounds(L.latLngBounds(finderVisible.map(p => [p.lat, p.lng])), { padding: [60, 60], duration: 1.1 });
+}
+
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    finderVisible = finderApplyFilter();
+    if (finderUserLatLng) finderVisible.sort((a,b) => haversine(...finderUserLatLng,a.lat,a.lng) - haversine(...finderUserLatLng,b.lat,b.lng));
+    renderAll();
+}
+
+function filterProvince(province, btn) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active'); finderProvince = province;
+    finderVisible = finderApplyFilter();
+    if (finderUserLatLng) finderVisible.sort((a,b) => haversine(...finderUserLatLng,a.lat,a.lng) - haversine(...finderUserLatLng,b.lat,b.lng));
+    renderAll(); closeSheet();
+    if (finderVisible.length) finderMap.flyToBounds(L.latLngBounds(finderVisible.map(p => [p.lat, p.lng])), { padding: [80, 80], duration: 1.1 });
+    else finderToast('No practitioners in ' + province);
+}
+
+function finderApplyFilter() { return finderProvince === 'All' ? [...DATA] : DATA.filter(p => p.province === finderProvince); }
+
+function sortBy(val) {
+    if (val === 'name') finderVisible.sort((a,b) => a.name.localeCompare(b.name));
+    else if (val === 'distance') { if (!finderUserLatLng) { finderToast('Tap "Near Me" first to sort by distance'); return; } finderVisible.sort((a,b) => haversine(...finderUserLatLng,a.lat,a.lng) - haversine(...finderUserLatLng,b.lat,b.lng)); }
+    else finderVisible.sort((a,b) => a.province.localeCompare(b.province));
+    renderAll();
+}
+
+function dismissBanner() { finderBannerShown = true; document.getElementById('locBanner').classList.remove('show'); }
+
+function haversine(lat1, lon1, lat2, lon2) {
+    const R = 6371, r = Math.PI/180, dLat = (lat2-lat1)*r, dLon = (lon2-lon1)*r;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*r)*Math.cos(lat2*r)*Math.sin(dLon/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function finderDebounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
+
+let _finderToastTimer;
+function finderToast(msg) {
+    const el = document.getElementById('finderToast');
+    el.textContent = msg; el.classList.add('show');
+    clearTimeout(_finderToastTimer);
+    _finderToastTimer = setTimeout(() => el.classList.remove('show'), 3600);
+}
+/* ══ end PRACTITIONER FINDER ══ */
 </script>
 
 </body></html>
