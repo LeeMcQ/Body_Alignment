@@ -10,6 +10,10 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://bodyalignmentmalmesbury.co.za/">
 
+    <!-- FIX 1: Tab/browser favicon — shows spine logo on browser tab -->
+    <link rel="icon" type="image/png" href="spine-white-copy-300x300.png">
+    <link rel="apple-touch-icon" href="spine-white-copy-300x300.png">
+
     <!-- PWA: theme-color + manifest -->
     <meta name="theme-color" content="#2e5845">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,11 +22,10 @@
     <meta name="apple-mobile-web-app-title" content="Body Alignment Malmesbury">
     <link rel="manifest" href="blob:null/eeebe266-6289-4a47-b616-dbeae7685bf8">
 
-    <!-- SECURITY: Content Security Policy (NEW from v2) -->
+    <!-- SECURITY: Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src https://www.google-analytics.com https://*.basemaps.cartocdn.com https://bodyalignment.co.za; frame-src https://www.google.com;">
 
-    <!-- ANALYTICS: Google Analytics 4 (NEW from v2) — replace G-XXXXXXXXXX with your Measurement ID -->
-    <!-- Sign up free at analytics.google.com → Admin → Create Property → Get Measurement ID -->
+    <!-- ANALYTICS: Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -50,7 +53,7 @@
     <meta name="twitter:image" content="https://leemcq.github.io/Body_Alignment/n.jpg">
     <meta name="twitter:image:alt" content="Charné McQuire performing Body Alignment therapy in Malmesbury">
 
-    <!-- Schema.org Local Business — ENHANCED: added areaServed, currenciesAccepted, paymentAccepted, sameAs (from v2) -->
+    <!-- Schema.org Local Business -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -614,7 +617,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-    /* ─── Finder CSS variables (extend :root without changing originals) ─── */
+    /* ─── Finder CSS variables ─── */
     :root {
       --finder-forest:      #2d5a3d;
       --finder-forest-mid:  #3a7050;
@@ -673,7 +676,7 @@
       .finder-widget { height: calc(100svh - 72px); min-height: 520px; max-height: 740px; }
     }
 
-    /* ─── Inner .app shell (contained, NOT full viewport) ─── */
+    /* ─── Inner .app shell ─── */
     .finder-widget .app {
       position: absolute; inset: 0;
       display: flex; flex-direction: column;
@@ -723,9 +726,20 @@
     }
     .finder-widget .app-header { display: none !important; }
 
-    /* ─── Map region ─── */
+    /* ─── FIX 2: Map region — height:100% is REQUIRED ───────────────────────
+       Without this, .map-region has height:auto (0px when empty), which means
+       #finderMap (position:absolute inset:0) collapses to 0px, AND
+       .map-search (position:absolute inside .map-region) has no positioned
+       parent with real height, so it disappears or renders off-screen.
+       The CSS flex/grid track gives the container a SIZE but the element's
+       own box height stays 'auto' unless explicitly set to 100%.
+    ─────────────────────────────────────────────────────────────────────── */
     .finder-widget .map-region {
-      position: relative; flex: 1 1 0; min-height: 0; overflow: hidden;
+      position: relative;
+      flex: 1 1 0;
+      min-height: 0;
+      overflow: hidden;
+      height: 100%; /* ← THE FIX: gives #finderMap and .map-search a real parent height */
     }
     #finderMap { position: absolute; inset: 0; background: #e4ede7; }
 
@@ -902,7 +916,7 @@
     .finder-widget .empty-state svg { opacity: .3; }
     .finder-widget .empty-state p { font-size: .85rem; }
 
-    /* ─── Detail sheet (fixed overlay, above original nav z-index:100) ─── */
+    /* ─── Detail sheet ─── */
     .sheet-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,.45);
       z-index: 600; opacity: 0; pointer-events: none;
@@ -998,6 +1012,7 @@
             </div>
         </a>
 
+        <!-- FIX 3: </ul> was missing — caused nav-cta to render inside the <ul> breaking layout -->
         <ul class="nav-links" role="list">
             <li><a href="#what-is">The Technique</a></li>
             <li><a href="#conditions">Conditions</a></li>
@@ -1006,6 +1021,7 @@
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="#finder">Find a Practitioner</a></li>
+        </ul><!-- ← THIS WAS MISSING in the document -->
 
         <div class="nav-cta">
             <a href="tel:0615158052" class="btn btn-outline nav-phone" aria-label="Call us on 061 515 8052">
@@ -1014,7 +1030,6 @@
             <a href="https://wa.me/27615158052" target="_blank" rel="noopener noreferrer" class="btn btn-wa" aria-label="WhatsApp us">
                 <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
             </a>
-            <!-- FIX: SVG hamburger icon toggle for consistent Android rendering (from v2) -->
             <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
                 <svg id="ham-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                     <line x1="3" y1="6" x2="19" y2="6" />
@@ -1030,7 +1045,7 @@
     </div>
 </nav>
 
-<!-- MOBILE NAV — FIX: added Pricing link (from v2) -->
+<!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
     <a href="#what-is" onclick="closeMobile()">The Technique</a>
     <a href="#conditions" onclick="closeMobile()">Conditions</a>
@@ -1059,7 +1074,6 @@
             <p class="hero-sub anim anim-d3">
                 Gentle, non-invasive Body Alignment therapy with Charné McQuire — Advanced Practitioner in Malmesbury, Western Cape.
             </p>
-            <!-- FIX: Primary CTA now opens WhatsApp directly (from v2 — was scroll-to-contact) -->
             <div class="hero-btns anim anim-d4">
                 <a href="https://wa.me/27615158052?text=Hi%20Charne%2C%20I%27d%20like%20to%20book%20a%20session%20please."
                    target="_blank" rel="noopener noreferrer"
@@ -1308,13 +1322,11 @@
         <div class="pricing-price"><sup>R</sup>500</div>
         <p class="pricing-period">per session voucher</p>
         <ul class="pricing-features">
-             <img src="body.jpeg" alt="Body Alignment Malmesbury logo" width="70" height="70" style="height:70px;width:auto;object-fit:contain;" loading="lazy" >
+             <img src="body.jpeg" alt="Body Alignment Malmesbury logo" width="70" height="70" style="height:70px;width:auto;object-fit:contain;" loading="lazy">
           <li><span class="ptick">✓</span> Everything in Single Session</li>
-          <li><span class="ptick">✓</span> Body Alignment Branded Physical or Digital Voucher for full session </li>
+          <li><span class="ptick">✓</span> Body Alignment Branded Physical or Digital Voucher for full session</li>
           <li><span class="ptick">✓</span> Voucher Valid for 12 months from purchase date</li>
           <li><span class="ptick">✓</span> The gift of a more pain free life</li>
-           
-          
         </ul>
         <a href="https://wa.me/27615158052?text=Hi%20Charne%2C%20I%27d%20like%20to%20book%20a%20follow-up%20session%20please." target="_blank" rel="noopener noreferrer" class="btn btn-outline pricing-cta" aria-label="Book follow-up session via WhatsApp">💬 Book Now</a>
       </div>
@@ -1354,11 +1366,6 @@
         </div>
     </div>
 </section>
-<!-- ═══════════════════════════════════════════════════════════════
-     PRACTITIONER FINDER SECTION
-     "If I'm not close to you, try my professional Body Alignment practitioner colleagues"
-     Inserted after Contact, before </main> — original site unchanged above
-═══════════════════════════════════════════════════════════════ -->
 
 <!-- Finder toast notification -->
 <div class="finder-toast" id="finderToast"></div>
@@ -1477,7 +1484,6 @@
     </div>
   </div>
 </section>
-<!-- ═══ end PRACTITIONER FINDER ═══ -->
 
 </main>
 
@@ -1499,7 +1505,7 @@
 </a>
 
 <script>
-    // ══ Mobile nav — FIX: SVG icon toggle for consistent Android rendering (from v2) ══
+    // ══ Mobile nav ══
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobileNav');
     const hamIcon   = document.getElementById('ham-icon');
@@ -1510,11 +1516,7 @@
         hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         hamIcon.style.display   = open ? 'none'  : 'block';
         closeIcon.style.display = open ? 'block' : 'none';
-        if (open) {
-            mobileNav.classList.add('open');
-        } else {
-            mobileNav.classList.remove('open');
-        }
+        if (open) { mobileNav.classList.add('open'); } else { mobileNav.classList.remove('open'); }
     }
 
     hamburger.addEventListener('click', () => {
@@ -1522,7 +1524,6 @@
         setHamState(!isOpen);
     });
 
-    // FIX: Close mobile nav when clicking outside it (from v2)
     document.addEventListener('click', e => {
         if (mobileNav.classList.contains('open') &&
             !mobileNav.contains(e.target) &&
@@ -1549,7 +1550,7 @@
         });
     });
 
-    // Scroll animations — FIX: added IntersectionObserver guard + pricing-card selector (from v2)
+    // Scroll animations
     if (window.IntersectionObserver) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1569,7 +1570,7 @@
         });
     }
 
-    // PWA: inline manifest registration via Blob
+    // PWA: inline manifest registration
     const manifestData = {
         name: "Body Alignment Malmesbury",
         short_name: "Body Alignment",
@@ -1586,19 +1587,11 @@
     const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/manifest+json' });
     const manifestURL  = URL.createObjectURL(manifestBlob);
     const existingLink = document.querySelector('link[rel="manifest"]');
-    if (existingLink) {
-        existingLink.href = manifestURL;
-    } else {
-        const link = document.createElement('link');
-        link.rel = 'manifest';
-        link.href = manifestURL;
-        document.head.appendChild(link);
+    if (existingLink) { existingLink.href = manifestURL; } else {
+        const link = document.createElement('link'); link.rel = 'manifest'; link.href = manifestURL; document.head.appendChild(link);
     }
 
-    /* ══ GA4 Conversion Tracking (NEW from v2) ══
-       Fires when visitors click WhatsApp or phone links — tracks your most important conversions.
-       Works automatically once you replace G-XXXXXXXXXX in the <head> with your real Measurement ID.
-    */
+    // GA4 Conversion Tracking
     function gaEvent(name, params) {
         if (typeof gtag === 'function') gtag('event', name, params || {});
     }
@@ -1613,9 +1606,7 @@
     });
 
 /* ══════════════════════════════════════════════════
-   PRACTITIONER FINDER — DATA, MAP, JS
-   All original site code above is unchanged.
-   Only additions below.
+   PRACTITIONER FINDER
 ══════════════════════════════════════════════════ */
 const DATA = [
   {id:1,name:"Janet Yates",city:"Somerset West",province:"Western Cape",phone:"082 686 8291",email:"janet.bodyalignment@gmail.com",bio:"Founder & Owner of Body Alignment. Practitioner and Trainer. Developed the Body Alignment modality in 2013, combining physical and emotional techniques. Opens her practice in Somerset West in 2004 after training in DPPT.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/38.png",facebook:"https://www.facebook.com/janet.yates.796",lat:-34.0834,lng:18.8456},
@@ -1647,7 +1638,6 @@ const DATA = [
 let finderMap, finderMarkers = {}, finderUserMarker = null, finderUserLatLng = null;
 let finderVisible = [...DATA], finderProvince = 'All', finderActiveId = null, finderBannerShown = false;
 
-/* Lazy-init: only start Leaflet when finder scrolls into view */
 let finderMapInited = false;
 const finderObserver = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting && !finderMapInited) {
@@ -1660,8 +1650,6 @@ const finderObserver = new IntersectionObserver(entries => {
     }
 }, { threshold: 0.1 });
 finderObserver.observe(document.getElementById('finder'));
-
-/* Search input wired below, after finderDebounce is defined */
 
 function finderInitMap() {
     finderMap = L.map('finderMap', { center: [-33.9, 18.6], zoom: 9, zoomControl: false, tap: true, tapTolerance: 15 });
@@ -1775,16 +1763,12 @@ function openSheet(p) {
         document.getElementById('sheetEmail').textContent = p.email;
         document.getElementById('sheetEmail').href = 'mailto:' + p.email;
         document.getElementById('sheetEmailRow').style.display = 'flex';
-    } else {
-        document.getElementById('sheetEmailRow').style.display = 'none';
-    }
+    } else { document.getElementById('sheetEmailRow').style.display = 'none'; }
 
     if (finderUserLatLng) {
         document.getElementById('sheetDist').textContent = haversine(finderUserLatLng[0], finderUserLatLng[1], p.lat, p.lng).toFixed(1) + ' km from your location';
         document.getElementById('sheetDistRow').style.display = 'flex';
-    } else {
-        document.getElementById('sheetDistRow').style.display = 'none';
-    }
+    } else { document.getElementById('sheetDistRow').style.display = 'none'; }
 
     const fbEl = document.getElementById('sheetFB');
     if (p.facebook) { fbEl.href = p.facebook; fbEl.style.display = 'flex'; } else { fbEl.style.display = 'none'; }
@@ -1889,7 +1873,7 @@ function haversine(lat1, lon1, lat2, lon2) {
 
 function finderDebounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
 
-/* Wire search input — placed here so finderDebounce is already defined */
+/* Wire search — after finderDebounce is defined */
 const _finderSearchInp = document.getElementById('searchInput');
 if (_finderSearchInp) {
     _finderSearchInp.addEventListener('input', finderDebounce(liveSearch, 280));
@@ -1903,7 +1887,6 @@ function finderToast(msg) {
     clearTimeout(_finderToastTimer);
     _finderToastTimer = setTimeout(() => el.classList.remove('show'), 3600);
 }
-/* ══ end PRACTITIONER FINDER ══ */
 </script>
 
 </body></html>
