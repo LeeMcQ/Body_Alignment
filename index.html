@@ -682,9 +682,36 @@
       display: flex; flex-direction: column;
       overflow: hidden; height: 100%;
     }
+
+    /* ─── Search bar — locked as its own row, NEVER inside the map ───────────
+       This is the key fix: the bar is a flex child of .app (column),
+       not positioned inside .map-region. It can never be clipped or collapsed.
+    ─────────────────────────────────────────────────────────────────────── */
+    .finder-search-bar {
+      flex-shrink: 0;
+      background: var(--finder-forest);
+      padding: 10px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      z-index: 10;
+      box-shadow: 0 2px 12px rgba(0,0,0,.22);
+    }
+
+    /* ─── Map + tray sit below the search bar ─── */
+    .finder-map-tray-row {
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    @media (min-width: 701px) {
+      .finder-map-tray-row { flex-direction: row; }
+    }
+
     /* Desktop: sidebar layout */
     @media (min-width: 701px) {
-      .finder-widget .app { flex-direction: row; }
       .finder-widget .map-region { flex: 1 1 0; height: 100%; }
       .finder-widget .tray {
         width: 340px; height: 100%; flex-direction: column;
@@ -717,85 +744,76 @@
       .finder-widget .loc-banner { display: none !important; }
     }
     @media (max-width: 700px) {
-      .finder-widget .tray { height: 220px; }
+      .finder-widget .tray { height: 200px; }
       .finder-widget .prac-card { width: 175px; }
-      .finder-widget .loc-banner { bottom: 232px; }
+      .finder-widget .loc-banner { bottom: 212px; }
     }
     @media (max-width: 400px) {
       .finder-widget .prac-card { width: 160px; }
     }
     .finder-widget .app-header { display: none !important; }
 
-    /* ─── FIX 2: Map region — height:100% is REQUIRED ───────────────────────
-       Without this, .map-region has height:auto (0px when empty), which means
-       #finderMap (position:absolute inset:0) collapses to 0px, AND
-       .map-search (position:absolute inside .map-region) has no positioned
-       parent with real height, so it disappears or renders off-screen.
-       The CSS flex/grid track gives the container a SIZE but the element's
-       own box height stays 'auto' unless explicitly set to 100%.
-    ─────────────────────────────────────────────────────────────────────── */
+    /* ─── Map region ─── */
     .finder-widget .map-region {
       position: relative;
       flex: 1 1 0;
       min-height: 0;
       overflow: hidden;
-      height: 100%; /* ← THE FIX: gives #finderMap and .map-search a real parent height */
+      height: 100%;
     }
     #finderMap { position: absolute; inset: 0; background: #e4ede7; }
 
-    /* ─── Floating search bar ─── */
+    /* ─── .map-search is now a flex row inside .finder-search-bar ─── */
     .map-search {
-      position: absolute; top: 14px; left: 50%;
-      transform: translateX(-50%); z-index: 50;
-      width: min(560px, calc(100% - 28px));
-      display: flex; gap: 8px;
-      filter: drop-shadow(0 4px 18px rgba(0,0,0,.22));
+      display: flex; gap: 8px; align-items: center;
+      width: 100%; max-width: 680px; margin: 0 auto;
     }
     .search-pill {
       flex: 1; display: flex; align-items: center;
       background: white; border-radius: 50px;
-      padding: 0 16px 0 14px; gap: 10px; height: 48px;
+      padding: 0 16px 0 14px; gap: 10px; height: 42px;
+      min-width: 0;
     }
-    .search-pill svg { color: var(--finder-mid-grey); flex-shrink: 0; width: 18px; height: 18px; }
+    .search-pill svg { color: var(--finder-mid-grey); flex-shrink: 0; width: 16px; height: 16px; }
     .search-pill input {
-      flex: 1; border: none; outline: none;
-      font-family: 'DM Sans', sans-serif; font-size: .92rem;
+      flex: 1; border: none; outline: none; min-width: 0;
+      font-family: 'DM Sans', sans-serif; font-size: .88rem;
       color: var(--finder-charcoal); background: transparent; -webkit-appearance: none;
     }
     .search-pill input::placeholder { color: #aaa; }
     .clear-btn {
       background: none; border: none; color: #bbb; cursor: pointer;
-      font-size: 1rem; line-height: 1; display: none; padding: 2px 4px;
+      font-size: 1rem; line-height: 1; display: none; padding: 2px 4px; flex-shrink: 0;
       -webkit-tap-highlight-color: transparent;
     }
     .search-pill input:not(:placeholder-shown) ~ .clear-btn { display: block; }
     .btn-near-me {
-      height: 48px; padding: 0 18px; background: var(--finder-gold); color: white;
+      height: 42px; padding: 0 16px; background: var(--finder-gold); color: white;
       border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif;
-      font-size: .82rem; font-weight: 600; cursor: pointer;
-      display: flex; align-items: center; gap: 7px; white-space: nowrap; flex-shrink: 0;
+      font-size: .8rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;
       transition: background var(--finder-transition), transform .1s;
       -webkit-tap-highlight-color: transparent;
     }
     .btn-near-me:hover { background: var(--finder-gold-lt); }
     .btn-near-me:active { transform: scale(.97); }
     .btn-near-me.loading { opacity: .72; pointer-events: none; }
-    .btn-near-me svg { width: 16px; height: 16px; }
+    .btn-near-me svg { width: 15px; height: 15px; }
     .btn-near-me .btn-label { display: inline; }
     @keyframes spin-icon { to { transform: rotate(360deg); } }
     .spin { animation: spin-icon .75s linear infinite; }
-    @media (max-width: 700px) { .btn-near-me .btn-label { display: none; } .btn-near-me { padding: 0 14px; } }
-    @media (max-width: 400px) { .btn-near-me { padding: 0 12px; } }
+    @media (max-width: 700px) { .btn-near-me .btn-label { display: none; } .btn-near-me { padding: 0 13px; } }
+    @media (max-width: 400px) { .btn-near-me { padding: 0 11px; } }
 
-    /* ─── Province chips ─── */
+    /* ─── Province chips — now in the search bar, not floating over map ─── */
     .province-bar {
-      position: absolute; top: 74px; left: 50%; transform: translateX(-50%);
-      z-index: 50; display: flex; gap: 7px;
-      width: min(560px, calc(100% - 28px));
-      overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px;
+      display: flex; gap: 6px; overflow-x: auto;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch;
+      padding: 6px 14px 8px;
+      background: rgba(0,0,0,.15);
+      flex-shrink: 0;
     }
     .province-bar::-webkit-scrollbar { display: none; }
-    @media (max-width: 700px) { .province-bar { top: 72px; } }
     .chip {
       height: 32px; padding: 0 14px; border-radius: 50px;
       font-family: 'DM Sans', sans-serif; font-size: .74rem; font-weight: 500;
@@ -1433,8 +1451,9 @@
   <div class="finder-widget" id="finderWidget">
     <div class="app" id="finderApp">
       <header class="app-header" style="display:none"></header>
-      <div class="map-region">
-        <div id="finderMap"></div>
+
+      <!-- SEARCH BAR — locked above map, part of flex column, never clips or disappears -->
+      <div class="finder-search-bar">
         <div class="map-search">
           <div class="search-pill">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1446,40 +1465,48 @@
             <span class="btn-label">Near Me</span>
           </button>
         </div>
-        <div class="province-bar" id="provinceBar">
-          <button class="chip active" onclick="filterProvince('All',this)">All</button>
-          <button class="chip" onclick="filterProvince('Western Cape',this)">Western Cape</button>
-          <button class="chip" onclick="filterProvince('Australia',this)">Australia</button>
-        </div>
-        <div class="map-badge">
-          <div class="map-badge-dot"></div>
-          <strong id="countNum">24</strong>&nbsp;practitioners
-        </div>
-        <div class="loc-banner" id="locBanner">
-          <div class="loc-banner-icon">📍</div>
-          <div class="loc-banner-text">
-            <strong>Find the nearest practitioner</strong>
-            Allow location access for instant results
-          </div>
-          <div class="loc-btns">
-            <button class="btn-allow" onclick="locateMe();dismissBanner()">Allow</button>
-            <button class="btn-later" onclick="dismissBanner()">Later</button>
-          </div>
-        </div>
       </div>
-      <div class="tray">
-        <div class="tray-header">
-          <div class="tray-title" id="trayTitle">All Practitioners</div>
-          <div class="sort-row">
-            <span class="sort-label">Sort:</span>
-            <select class="sort-select" onchange="sortBy(this.value)">
-              <option value="province">Province</option>
-              <option value="name">Name A–Z</option>
-              <option value="distance">Distance</option>
-            </select>
+      <!-- PROVINCE CHIPS — locked below search bar, also never disappears -->
+      <div class="province-bar" id="provinceBar">
+        <button class="chip active" onclick="filterProvince('All',this)">All</button>
+        <button class="chip" onclick="filterProvince('Western Cape',this)">Western Cape</button>
+        <button class="chip" onclick="filterProvince('Australia',this)">Australia</button>
+      </div>
+
+      <!-- MAP + TRAY ROW — fills remaining space below search -->
+      <div class="finder-map-tray-row">
+        <div class="map-region">
+          <div id="finderMap"></div>
+          <div class="map-badge">
+            <div class="map-badge-dot"></div>
+            <strong id="countNum">24</strong>&nbsp;practitioners
+          </div>
+          <div class="loc-banner" id="locBanner">
+            <div class="loc-banner-icon">📍</div>
+            <div class="loc-banner-text">
+              <strong>Find the nearest practitioner</strong>
+              Allow location access for instant results
+            </div>
+            <div class="loc-btns">
+              <button class="btn-allow" onclick="locateMe();dismissBanner()">Allow</button>
+              <button class="btn-later" onclick="dismissBanner()">Later</button>
+            </div>
           </div>
         </div>
-        <div class="card-scroll" id="cardScroll"></div>
+        <div class="tray">
+          <div class="tray-header">
+            <div class="tray-title" id="trayTitle">All Practitioners</div>
+            <div class="sort-row">
+              <span class="sort-label">Sort:</span>
+              <select class="sort-select" onchange="sortBy(this.value)">
+                <option value="province">Province</option>
+                <option value="name">Name A–Z</option>
+                <option value="distance">Distance</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-scroll" id="cardScroll"></div>
+        </div>
       </div>
     </div>
   </div>
