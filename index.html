@@ -94,7 +94,7 @@
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5.0",
-        "reviewCount": "15+"
+        "reviewCount": "14"
       },
       "priceRange": "$$",
       "currenciesAccepted": "ZAR",
@@ -131,7 +131,7 @@
             --white:    #ffffff;
         }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
 
         body {
             font-family: 'DM Sans', system-ui, sans-serif;
@@ -559,6 +559,7 @@
             position: fixed;
             bottom: 1.5rem;
             right: 1.5rem;
+            right: max(1.5rem, env(safe-area-inset-right, 1.5rem));
             width: 58px;
             height: 58px;
             background: #25D366;
@@ -571,6 +572,8 @@
             box-shadow: 0 8px 24px rgba(37,211,102,0.45);
             z-index: 200;
             transition: transform 0.25s;
+            /* Prevent it from ever going off-screen */
+            max-right: calc(100vw - 74px);
         }
         .fab-wa:hover { transform: scale(1.1); }
 
@@ -1128,7 +1131,7 @@
 <div class="stats-bar" role="region" aria-label="Practice statistics">
     <div class="stats-inner">
         <div class="stat-item"><div class="stat-num" aria-label="5 star Google rating">5.0★</div><div class="stat-lbl">Google Rating</div></div>
-        <div class="stat-item"><div class="stat-num">15+</div><div class="stat-lbl">Verified Reviews</div></div>
+        <div class="stat-item"><div class="stat-num">14+</div><div class="stat-lbl">Verified Reviews</div></div>
         <div class="stat-item"><div class="stat-num">45–60</div><div class="stat-lbl">Minutes per session</div></div>
         <div class="stat-item"><div class="stat-num">100%</div><div class="stat-lbl">Fully clothed therapy</div></div>
     </div>
@@ -1377,7 +1380,7 @@
                 </div>
             </div>
             <div class="contact-map" aria-label="Map showing practice location in Malmesbury">
-                <iframe title="Body Alignment Malmesbury Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5!2d18.705!3d-33.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5e5e5e5e5e5e%3A0x1234567890abcdef!2s6%20Piet%20Retief%20St%2C%20Malmesbury!5e0!3m2!1sen!2sza!4v1700000000000" width="600" height="440" style="border:0; border-radius:1.5rem; min-height:440px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe title="Body Alignment Malmesbury Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5!2d18.705!3d-33.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5e5e5e5e5e5e%3A0x1234567890abcdef!2s6%20Piet%20Retief%20St%2C%20Malmesbury!5e0!3m2!1sen!2sza!4v1700000000000" style="border:0; border-radius:1.5rem; width:100%; min-height:320px; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
@@ -1641,7 +1644,7 @@ const DATA = [
   {id:5,name:"Ilse Steenkamp",city:"Helderberg / Strand",province:"Western Cape",phone:"082 926 3414",email:"",bio:"Certified Body Alignment practitioner serving the Helderberg and Strand areas. Highly skilled in helping clients with chronic back issues and postural correction.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/13.png",facebook:"",lat:-34.1100,lng:18.8440},
   {id:6,name:"Elmarie Henegan",city:"Strand",province:"Western Cape",phone:"084 627 8002",email:"",bio:"Certified Body Alignment practitioner based in Strand, helping clients release deep muscle tension and restore spinal alignment.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/20.png",facebook:"https://www.facebook.com/profile.php?id=61560329326901",lat:-34.1200,lng:18.8250},
   {id:7,name:"Antoinette Retief",city:"Strand",province:"Western Cape",phone:"068 154 1906",email:"",bio:"Certified Body Alignment practitioner in Strand, dedicated to restoring whole-body balance and relieving chronic pain.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/15-1.png",facebook:"",lat:-34.1150,lng:18.8310},
-  {id:8,name:"Charnè McQuire",city:"Malmesbury",province:"Western Cape",phone:"061 515 8052",email:"bodyalignmentmalmesbury@gmail.com",bio:"Certified Body Alignment practitioner serving the Swartland region from Malmesbury. Passionate about holistic health and whole-body pain relief.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/32.png",facebook:"",lat:-33.4607,lng:18.7281},
+  {id:8,name:"Charnè McQuire",city:"Malmesbury",province:"Western Cape",phone:"063 104 8542",email:"charne@bodyalignmentmalmesbury.co.za",bio:"Certified Body Alignment practitioner serving the Swartland region from Malmesbury. Passionate about holistic health and whole-body pain relief.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/32.png",facebook:"",lat:-33.4607,lng:18.7281},
   {id:9,name:"Jeanne Mitchell",city:"Wellington / Paarl",province:"Western Cape",phone:"083 298 8533",email:"",bio:"Certified Body Alignment practitioner based in Wellington, also serving Paarl as a mobile practitioner throughout the Boland.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/17.png",facebook:"https://www.facebook.com/p/body-alignment-wellington-100094044054949/",lat:-33.6440,lng:19.0130},
   {id:10,name:"Natasja Warnick",city:"Darling / Mamre",province:"Western Cape",phone:"082 730 0668",email:"",bio:"Certified Body Alignment practitioner serving Darling and Mamre, bringing holistic pain relief to the West Coast communities.",photo:"https://bodyalignment.co.za/wp-content/uploads/2024/11/34.png",facebook:"https://www.facebook.com/NTDancefitness",lat:-33.3760,lng:18.3860},
   {id:11,name:"Chris-Fick Van Niekerk",city:"Bergrivier",province:"Western Cape",phone:"068 641 3097",email:"",bio:"Certified Body Alignment practitioner serving the Bergrivier area on the West Coast.",photo:"https://bodyalignment.co.za/wp-content/uploads/2025/05/Chris-Fick.png",facebook:"",lat:-32.7500,lng:18.9600},
